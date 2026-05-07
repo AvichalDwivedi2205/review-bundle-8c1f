@@ -1,0 +1,73 @@
+{
+  "mean_scores": {
+    "task3_startup_week": 0.40878,
+    "task6_incident_response_week": 0.43213999999999997,
+    "task7_quarterly_headcount_plan": 0.47739000000000004
+  },
+  "strict_mean_scores": {
+    "task3_startup_week": 0.40878,
+    "task6_incident_response_week": 0.43213999999999997,
+    "task7_quarterly_headcount_plan": 0.47739000000000004
+  },
+  "rescued_mean_scores": {
+    "task3_startup_week": 0.0,
+    "task6_incident_response_week": 0.0,
+    "task7_quarterly_headcount_plan": 0.0
+  },
+  "shifted_mean_scores": {
+    "task3_startup_week": 0.3937222222222222,
+    "task6_incident_response_week": 0.41969999999999996,
+    "task7_quarterly_headcount_plan": 0.46466666666666673
+  },
+  "unshifted_mean_scores": {
+    "task3_startup_week": 0.5443,
+    "task6_incident_response_week": 0.5441,
+    "task7_quarterly_headcount_plan": 0.5919
+  },
+  "primary_mean_scores": {
+    "task3_startup_week": 0.40878,
+    "task6_incident_response_week": 0.43213999999999997,
+    "task7_quarterly_headcount_plan": 0.47739000000000004
+  },
+  "primary_metric": "score",
+  "paper_safe": true,
+  "overall_mean_score": 0.43943666666666664,
+  "strict_native_overall_mean_score": 0.43943666666666664,
+  "assisted_overall_mean_score": 0.0,
+  "shifted_overall_mean_score": 0.42602962962962965,
+  "unshifted_overall_mean_score": 0.5600999999999999,
+  "episodes_expected": 30,
+  "episode_count": 30,
+  "episodes_completed": 30,
+  "run_complete": true,
+  "completion_status": "complete",
+  "duplicate_episode_row_count": 0,
+  "strict_episode_count": 30,
+  "rescued_episode_count": 0,
+  "heuristic_rescue_episode_count": 0,
+  "empty_fallback_episode_count": 0,
+  "parse_fallback_episode_count": 0,
+  "parse_repaired_episode_count": 0,
+  "task2_visible_floor_episode_count": 0,
+  "response_cap_hit_episode_count": 0,
+  "parse_fallback_count": 0,
+  "parse_repaired_count": 0,
+  "shifted_episode_count": 27,
+  "unshifted_episode_count": 3,
+  "native_action_episode_rate": 1.0,
+  "assisted_episode_rate": 0.0,
+  "empty_fallback_episode_rate": 0.0,
+  "response_cap_hit_episode_rate": 0.0,
+  "parse_fallback_step_count": 0,
+  "parse_repaired_step_count": 0,
+  "heuristic_rescue_step_count": 0,
+  "empty_fallback_step_count": 0,
+  "task2_visible_floor_step_count": 0,
+  "response_cap_hit_step_count": 0,
+  "finish_reason_counts": {
+    "stop": 210
+  },
+  "benchmark_runtime_versions": [
+    "2026-04-07-shell-overhaul-v6"
+  ]
+}

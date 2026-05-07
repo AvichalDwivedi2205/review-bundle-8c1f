@@ -1,0 +1,65 @@
+{
+  "mean_scores": {
+    "task3_startup_week": 0.36355,
+    "task6_incident_response_week": 0.30342
+  },
+  "strict_mean_scores": {
+    "task3_startup_week": 0.6413,
+    "task6_incident_response_week": 0.0
+  },
+  "rescued_mean_scores": {
+    "task3_startup_week": 0.339825,
+    "task6_incident_response_week": 0.0
+  },
+  "shifted_mean_scores": {
+    "task3_startup_week": 0.3326888888888889,
+    "task6_incident_response_week": 0.2912
+  },
+  "unshifted_mean_scores": {
+    "task3_startup_week": 0.6413,
+    "task6_incident_response_week": 0.4134
+  },
+  "primary_mean_scores": {},
+  "primary_metric": "mixed_score",
+  "paper_safe": false,
+  "overall_mean_score": 0.333485,
+  "strict_native_overall_mean_score": 0.6413,
+  "assisted_overall_mean_score": 0.339825,
+  "shifted_overall_mean_score": 0.31194444444444447,
+  "unshifted_overall_mean_score": 0.52735,
+  "episodes_expected": 20,
+  "episode_count": 20,
+  "episodes_completed": 20,
+  "run_complete": true,
+  "completion_status": "complete",
+  "duplicate_episode_row_count": 0,
+  "strict_episode_count": 1,
+  "rescued_episode_count": 8,
+  "heuristic_rescue_episode_count": 0,
+  "empty_fallback_episode_count": 18,
+  "parse_fallback_episode_count": 18,
+  "parse_repaired_episode_count": 8,
+  "task2_visible_floor_episode_count": 0,
+  "response_cap_hit_episode_count": 19,
+  "parse_fallback_count": 18,
+  "parse_repaired_count": 8,
+  "shifted_episode_count": 18,
+  "unshifted_episode_count": 2,
+  "native_action_episode_rate": 0.05,
+  "assisted_episode_rate": 0.4,
+  "empty_fallback_episode_rate": 0.9,
+  "response_cap_hit_episode_rate": 0.95,
+  "parse_fallback_step_count": 55,
+  "parse_repaired_step_count": 12,
+  "heuristic_rescue_step_count": 0,
+  "empty_fallback_step_count": 55,
+  "task2_visible_floor_step_count": 0,
+  "response_cap_hit_step_count": 58,
+  "finish_reason_counts": {
+    "stop": 112,
+    "length": 58
+  },
+  "benchmark_runtime_versions": [
+    "2026-04-07-shell-overhaul-v6"
+  ]
+}

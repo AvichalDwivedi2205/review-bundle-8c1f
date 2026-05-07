@@ -1,0 +1,44 @@
+[
+  {
+    "check":"core_baseline_ordering",
+    "value":"{\"myopic oracle\": 0.59859, \"random\": 0.30251, \"visible heuristic\": 0.3457933333333333}",
+    "passes":true,
+    "threshold":"random < visible heuristic < myopic oracle"
+  },
+  {
+    "check":"core_oracle_gap",
+    "value":0.29608,
+    "passes":true,
+    "threshold":">= 0.20"
+  },
+  {
+    "check":"heldout_baseline_ordering",
+    "value":"{\"myopic oracle\": 0.59841, \"random\": 0.30953166666666665, \"visible heuristic\": 0.3711083333333333}",
+    "passes":true,
+    "threshold":"random < visible heuristic < myopic oracle"
+  },
+  {
+    "check":"heldout_oracle_gap",
+    "value":0.2888783333,
+    "passes":true,
+    "threshold":">= 0.20"
+  },
+  {
+    "check":"model_split_coverage",
+    "value":20,
+    "passes":true,
+    "threshold":"core and heldout rows for each frozen model"
+  },
+  {
+    "check":"main_task_episode_count",
+    "value":30,
+    "passes":true,
+    "threshold":">= 30 episodes per model\/split on the primary task aggregate"
+  },
+  {
+    "check":"silent_shift_penalty_present",
+    "value":0.1715814815,
+    "passes":true,
+    "threshold":"median unshifted-minus-shifted gap >= 0.10"
+  }
+]

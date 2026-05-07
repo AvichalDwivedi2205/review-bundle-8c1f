@@ -1,0 +1,83 @@
+events:
+  infra_incident:
+    summary: "A latency incident is stressing operations and customer trust."
+    clue_goal: efficiency
+    alerts: ["Latency spike detected in eu-west cluster."]
+    lag_steps: 1
+    effects:
+      ops_margin: -0.03
+      support_ticket_volume: 18
+  competitor_launch:
+    summary: "A competitor launched a flashy acquisition play that could slow new-logo momentum."
+    clue_goal: growth
+    alerts: ["CEO forwarded a competitor launch memo."]
+    lag_steps: 1
+    effects:
+      dau: -120.0
+      mau: -240.0
+  board_pressure:
+    summary: "The board is demanding a more credible monetization story before the next review."
+    clue_goal: revenue
+    alerts: ["Board asked for a more credible monetization plan."]
+    lag_steps: 1
+    effects: {}
+  support_surge:
+    summary: "Support volume is surging after a rough release and may damage account trust if unresolved."
+    clue_goal: retention
+    alerts: ["Support queue surged after yesterday's release."]
+    lag_steps: 1
+    effects:
+      d7_retention: -0.01
+      support_ticket_volume: 24
+  enterprise_renewal_window:
+    summary: "Several enterprise renewals are entering a decision window that can swing account stability and near-term ARR."
+    clue_goal: retention
+    alerts: ["Customer success flagged a renewal decision cluster for top accounts."]
+    lag_steps: 1
+    effects:
+      d30_retention: -0.015
+      mrr: -1200.0
+  cloud_commitment_review:
+    summary: "Finance is reviewing infrastructure commitments and pushing for lower cost-to-serve."
+    clue_goal: efficiency
+    alerts: ["Finance requested an infra commitment review before month-end."]
+    lag_steps: 1
+    effects:
+      ops_margin: -0.015
+      infra_cost_per_unit: 0.08
+  procurement_freeze:
+    split: heldout
+    summary: "Several enterprise prospects are moving into a slower procurement cycle that could disrupt expansion timing."
+    clue_goal: revenue
+    alerts: ["Sales flagged a procurement slowdown on larger accounts."]
+    lag_steps: 1
+    effects:
+      mrr: -900.0
+      arpu: -2.5
+  champion_departure:
+    split: heldout
+    summary: "A champion departure at a strategic account is creating trust risk just ahead of a renewal checkpoint."
+    clue_goal: retention
+    alerts: ["Customer success reported a champion turnover at a strategic account."]
+    lag_steps: 1
+    effects:
+      d30_retention: -0.012
+      support_ticket_volume: 12
+  analyst_report_cycle:
+    split: heldout
+    summary: "An analyst report is reshaping category awareness and could either help or hurt new-logo momentum."
+    clue_goal: growth
+    alerts: ["Marketing shared a category analyst note with mixed implications for awareness."]
+    lag_steps: 1
+    effects:
+      dau: -90.0
+      mau: -160.0
+  compliance_audit_request:
+    split: heldout
+    summary: "A surprise compliance request is increasing operational burden and raising questions about enterprise readiness."
+    clue_goal: efficiency
+    alerts: ["Legal requested a cross-functional response to a compliance review."]
+    lag_steps: 1
+    effects:
+      ops_margin: -0.018
+      support_ticket_volume: 10

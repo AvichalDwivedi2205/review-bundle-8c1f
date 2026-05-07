@@ -1,0 +1,8 @@
+check,value,passes,threshold
+core_baseline_ordering,"{""myopic oracle"": 0.59859, ""random"": 0.30251, ""visible heuristic"": 0.3457933333333333}",True,random < visible heuristic < myopic oracle
+core_oracle_gap,0.29607999999999995,True,>= 0.20
+heldout_baseline_ordering,"{""myopic oracle"": 0.59841, ""random"": 0.30953166666666665, ""visible heuristic"": 0.3711083333333333}",True,random < visible heuristic < myopic oracle
+heldout_oracle_gap,0.28887833333333335,True,>= 0.20
+model_split_coverage,20,True,core and heldout rows for each frozen model
+main_task_episode_count,30,True,>= 30 episodes per model/split on the primary task aggregate
+silent_shift_penalty_present,0.17158148148148145,True,median unshifted-minus-shifted gap >= 0.10

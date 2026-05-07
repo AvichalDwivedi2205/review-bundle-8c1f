@@ -1,0 +1,21 @@
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{llrrrrr}
+    \toprule
+    Model & Split & Frozen overall & Shell overall & Shell assisted & Diagnostic native & Repair rate \\
+    \midrule
+    Gemma 26B & core & 0.395 & 0.285 & 0.278 & 0.00 & 0.10 \\
+    Gemma 26B & heldout & 0.361 & 0.287 & 0.353 & 0.00 & 0.10 \\
+    Qwen 27B & core & 0.443 & 0.333 & 0.340 & 0.05 & 0.40 \\
+    Qwen 27B & heldout & 0.385 & 0.345 & 0.375 & 0.25 & 0.20 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Appendix shell-controlled diagnostic with parse repair enabled and
+  heuristic rescue disabled. ``Diagnostic native'' is measured inside this
+  separate diagnostic rerun condition and is not the frozen benchmark native
+  episode rate. ``Shell assisted'' is the assisted aggregate reported by the
+  diagnostic runner.}
+  \label{tab:shelldiagnostic}
+\end{table}

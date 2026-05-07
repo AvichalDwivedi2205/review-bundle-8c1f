@@ -1,0 +1,72 @@
+archetypes:
+  growth:
+    weights:
+      growth: 0.55
+      retention: 0.15
+      revenue: 0.20
+      efficiency: 0.10
+    primary_kpi: "dau"
+    risk_posture: "aggressive"
+    planning_horizon: "quarterly"
+    governance_strictness: "flexible"
+    segment_focus: "self_serve"
+    risk_posture_choices: ["aggressive", "balanced"]
+    planning_horizon_choices: ["immediate", "quarterly"]
+    governance_strictness_choices: ["flexible", "moderate"]
+    segment_focus_choices: ["self_serve", "smb", "mid_market"]
+  retention:
+    weights:
+      growth: 0.10
+      retention: 0.60
+      revenue: 0.15
+      efficiency: 0.15
+    primary_kpi: "d30_retention"
+    risk_posture: "balanced"
+    planning_horizon: "quarterly"
+    governance_strictness: "strict"
+    segment_focus: "enterprise"
+    risk_posture_choices: ["balanced", "conservative"]
+    planning_horizon_choices: ["immediate", "quarterly", "strategic"]
+    governance_strictness_choices: ["moderate", "strict"]
+    segment_focus_choices: ["mid_market", "enterprise", "strategic"]
+  revenue:
+    weights:
+      growth: 0.10
+      retention: 0.20
+      revenue: 0.55
+      efficiency: 0.15
+    primary_kpi: "mrr"
+    risk_posture: "balanced"
+    planning_horizon: "quarterly"
+    governance_strictness: "moderate"
+    segment_focus: "mid_market"
+    risk_posture_choices: ["aggressive", "balanced"]
+    planning_horizon_choices: ["quarterly", "strategic"]
+    governance_strictness_choices: ["flexible", "moderate", "strict"]
+    segment_focus_choices: ["mid_market", "enterprise", "strategic"]
+  efficiency:
+    weights:
+      growth: 0.10
+      retention: 0.15
+      revenue: 0.15
+      efficiency: 0.60
+    primary_kpi: "ops_margin"
+    risk_posture: "conservative"
+    planning_horizon: "strategic"
+    governance_strictness: "strict"
+    segment_focus: "enterprise"
+    risk_posture_choices: ["balanced", "conservative"]
+    planning_horizon_choices: ["quarterly", "strategic"]
+    governance_strictness_choices: ["moderate", "strict"]
+    segment_focus_choices: ["enterprise", "strategic"]
+alpha_choices: [0.5, 1.0, 2.0]
+shift_probability: 0.6
+shift_steps: [3, 4, 5]
+shift_types: ["abrupt", "drift", "shock"]
+shift_duration_choices: [1, 2, 3]
+changed_field_count_choices: [2, 3, 4, 5]
+shift_triggers:
+  - "board_reprioritization"
+  - "customer_incident"
+  - "cash_runway_warning"
+  - "enterprise_escalation"

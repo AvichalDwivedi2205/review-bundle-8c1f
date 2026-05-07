@@ -1,0 +1,17 @@
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lllrrrrr}
+    \toprule
+    Model & Split & Provider & Episodes & Overall & 95\% CI & Native rate & Empty fallback \\
+    \midrule
+    GPT-OSS 120B & core & OpenRouter API & 30 & 0.381 & [0.348, 0.415] & 0.60 & 0.40 \\
+    GPT-OSS 120B & heldout & OpenRouter API & 30 & 0.365 & [0.339, 0.396] & 0.43 & 0.57 \\
+    \bottomrule
+  \end{tabular}
+  \caption{External anchors excluded from the primary benchmark matrix because
+  they were not run under the same local serving path. They are retained for
+  transparency but are not used as load-bearing within-family scaling evidence.}
+  \label{tab:externalanchors}
+\end{table}

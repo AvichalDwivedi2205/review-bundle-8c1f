@@ -1,0 +1,6 @@
+lambdas:
+  kpi_improvement: 0.50
+  coherence: 0.15
+  invalid: 0.20
+  waste: 0.05
+  damage: 0.10

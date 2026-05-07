@@ -1,0 +1,89 @@
+{
+  "mean_scores": {
+    "task1_feedback_triage": 0.7335499999999999,
+    "task2_roadmap_priority": 0.37043,
+    "task3_startup_week": 0.40174000000000004,
+    "task4_capital_allocation": 0.16189,
+    "task5_crisis_response": 0.66459,
+    "task6_incident_response_week": 0.45622999999999997,
+    "task7_quarterly_headcount_plan": 0.517
+  },
+  "strict_mean_scores": {
+    "task1_feedback_triage": 0.8042222222222222,
+    "task2_roadmap_priority": 0.74086,
+    "task3_startup_week": 0.40174000000000004,
+    "task4_capital_allocation": 0.32378,
+    "task5_crisis_response": 0.66459,
+    "task6_incident_response_week": 0.45622999999999997,
+    "task7_quarterly_headcount_plan": 0.5339555555555555
+  },
+  "rescued_mean_scores": {
+    "task1_feedback_triage": 0.0,
+    "task2_roadmap_priority": 0.0,
+    "task3_startup_week": 0.0,
+    "task4_capital_allocation": 0.0,
+    "task5_crisis_response": 0.0,
+    "task6_incident_response_week": 0.0,
+    "task7_quarterly_headcount_plan": 0.0
+  },
+  "shifted_mean_scores": {
+    "task1_feedback_triage": 0.0,
+    "task2_roadmap_priority": 0.0,
+    "task3_startup_week": 0.3892,
+    "task4_capital_allocation": 0.0,
+    "task5_crisis_response": 0.0,
+    "task6_incident_response_week": 0.43946666666666667,
+    "task7_quarterly_headcount_plan": 0.5033
+  },
+  "unshifted_mean_scores": {
+    "task1_feedback_triage": 0.7335499999999999,
+    "task2_roadmap_priority": 0.37043,
+    "task3_startup_week": 0.5146,
+    "task4_capital_allocation": 0.16189,
+    "task5_crisis_response": 0.66459,
+    "task6_incident_response_week": 0.6071,
+    "task7_quarterly_headcount_plan": 0.6403
+  },
+  "primary_mean_scores": {
+    "task1_feedback_triage": 0.7335499999999999,
+    "task2_roadmap_priority": 0.37043,
+    "task3_startup_week": 0.40174000000000004,
+    "task4_capital_allocation": 0.16189,
+    "task5_crisis_response": 0.66459,
+    "task6_incident_response_week": 0.45622999999999997,
+    "task7_quarterly_headcount_plan": 0.517
+  },
+  "primary_metric": "score",
+  "paper_safe": true,
+  "episode_count": 70,
+  "duplicate_episode_row_count": 0,
+  "strict_episode_count": 58,
+  "rescued_episode_count": 0,
+  "heuristic_rescue_episode_count": 0,
+  "empty_fallback_episode_count": 12,
+  "parse_fallback_episode_count": 12,
+  "parse_repaired_episode_count": 0,
+  "task2_visible_floor_episode_count": 0,
+  "response_cap_hit_episode_count": 14,
+  "parse_fallback_count": 12,
+  "parse_repaired_count": 0,
+  "shifted_episode_count": 27,
+  "unshifted_episode_count": 43,
+  "native_action_episode_rate": 0.8285714285714286,
+  "assisted_episode_rate": 0.0,
+  "empty_fallback_episode_rate": 0.17142857142857143,
+  "response_cap_hit_episode_rate": 0.2,
+  "parse_fallback_step_count": 12,
+  "parse_repaired_step_count": 0,
+  "heuristic_rescue_step_count": 0,
+  "empty_fallback_step_count": 12,
+  "task2_visible_floor_step_count": 0,
+  "response_cap_hit_step_count": 15,
+  "finish_reason_counts": {
+    "length": 15,
+    "stop": 235
+  },
+  "benchmark_runtime_versions": [
+    "2026-04-06-output-hardening-v2"
+  ]
+}

@@ -1,0 +1,36 @@
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{llrrrrrrr}
+    \toprule
+    Model & Split & Episodes & Overall & 95\% CI & Native-only & Native n & Native rate & Empty fallback \\
+    \midrule
+    DeepSeek 1.5B & core & 30 & 0.430 & [0.400, 0.462] & 0.430 & 30 & 1.00 & 0.00 \\
+    DeepSeek 1.5B & heldout & 30 & 0.430 & [0.400, 0.462] & 0.430 & 30 & 1.00 & 0.00 \\
+    DeepSeek 8B & core & 30 & 0.405 & [0.375, 0.439] & 0.405 & 30 & 1.00 & 0.00 \\
+    DeepSeek 8B & heldout & 30 & 0.446 & [0.410, 0.482] & 0.446 & 30 & 1.00 & 0.00 \\
+    DeepSeek 14B & core & 30 & 0.439 & [0.404, 0.474] & 0.439 & 30 & 1.00 & 0.00 \\
+    DeepSeek 14B & heldout & 30 & 0.429 & [0.396, 0.464] & 0.429 & 30 & 1.00 & 0.00 \\
+    Gemma 2B & core & 30 & 0.404 & [0.377, 0.436] & 0.404 & 30 & 1.00 & 0.00 \\
+    Gemma 2B & heldout & 30 & 0.415 & [0.390, 0.445] & 0.415 & 30 & 1.00 & 0.00 \\
+    Gemma 4B & core & 30 & 0.421 & [0.390, 0.454] & 0.421 & 30 & 1.00 & 0.00 \\
+    Gemma 4B & heldout & 30 & 0.428 & [0.397, 0.459] & 0.428 & 30 & 1.00 & 0.00 \\
+    Gemma 26B & core & 30 & 0.395 & [0.356, 0.436] & 0.434 & 21 & 0.70 & 0.30 \\
+    Gemma 26B & heldout & 30 & 0.361 & [0.336, 0.390] & 0.384 & 22 & 0.73 & 0.27 \\
+    GPT-OSS 20B & core & 30 & 0.400 & [0.366, 0.438] & 0.400 & 30 & 1.00 & 0.00 \\
+    GPT-OSS 20B & heldout & 30 & 0.379 & [0.353, 0.408] & 0.379 & 30 & 1.00 & 0.00 \\
+    Qwen 2B & core & 30 & 0.430 & [0.399, 0.463] & 0.430 & 30 & 1.00 & 0.00 \\
+    Qwen 2B & heldout & 30 & 0.434 & [0.404, 0.466] & 0.434 & 30 & 1.00 & 0.00 \\
+    Qwen 9B & core & 30 & 0.422 & [0.385, 0.459] & 0.422 & 30 & 1.00 & 0.00 \\
+    Qwen 9B & heldout & 30 & 0.421 & [0.383, 0.459] & 0.421 & 30 & 1.00 & 0.00 \\
+    Qwen 27B & core & 60 & 0.443 & [0.422, 0.464] & 0.443 & 58 & 0.97 & 0.03 \\
+    Qwen 27B & heldout & 30 & 0.385 & [0.345, 0.425] & 0.457 & 14 & 0.47 & 0.53 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Frozen primary benchmark matrix over P1--P3. This table
+  includes only locally served models with benchmark role `primary`. Exact raw
+  serving tags remain in the resolved protocol metadata. API-served comparison
+  points are reported separately as external anchors.}
+  \label{tab:mainresults}
+\end{table}

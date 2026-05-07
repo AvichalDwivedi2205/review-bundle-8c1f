@@ -1,0 +1,74 @@
+{
+  "mean_scores": {
+    "task3_startup_week": 0.38936,
+    "task6_incident_response_week": 0.28976,
+    "task7_quarterly_headcount_plan": 0.47481999999999996
+  },
+  "strict_mean_scores": {
+    "task3_startup_week": 0.43818,
+    "task6_incident_response_week": 0.0,
+    "task7_quarterly_headcount_plan": 0.4670111111111111
+  },
+  "rescued_mean_scores": {
+    "task3_startup_week": 0.0,
+    "task6_incident_response_week": 0.0,
+    "task7_quarterly_headcount_plan": 0.0
+  },
+  "shifted_mean_scores": {
+    "task3_startup_week": 0.36077777777777775,
+    "task6_incident_response_week": 0.2757777777777778,
+    "task7_quarterly_headcount_plan": 0.4670111111111111
+  },
+  "unshifted_mean_scores": {
+    "task3_startup_week": 0.6466,
+    "task6_incident_response_week": 0.4156,
+    "task7_quarterly_headcount_plan": 0.5451
+  },
+  "primary_mean_scores": {
+    "task3_startup_week": 0.38936,
+    "task6_incident_response_week": 0.28976,
+    "task7_quarterly_headcount_plan": 0.47481999999999996
+  },
+  "primary_metric": "score",
+  "paper_safe": true,
+  "overall_mean_score": 0.3846466666666667,
+  "strict_native_overall_mean_score": 0.45671428571428574,
+  "assisted_overall_mean_score": 0.0,
+  "shifted_overall_mean_score": 0.36785555555555555,
+  "unshifted_overall_mean_score": 0.5357666666666666,
+  "episodes_expected": 30,
+  "episode_count": 30,
+  "episodes_completed": 30,
+  "run_complete": true,
+  "completion_status": "complete",
+  "duplicate_episode_row_count": 0,
+  "strict_episode_count": 14,
+  "rescued_episode_count": 0,
+  "heuristic_rescue_episode_count": 0,
+  "empty_fallback_episode_count": 16,
+  "parse_fallback_episode_count": 16,
+  "parse_repaired_episode_count": 0,
+  "task2_visible_floor_episode_count": 0,
+  "response_cap_hit_episode_count": 10,
+  "parse_fallback_count": 16,
+  "parse_repaired_count": 0,
+  "shifted_episode_count": 27,
+  "unshifted_episode_count": 3,
+  "native_action_episode_rate": 0.4666666666666667,
+  "assisted_episode_rate": 0.0,
+  "empty_fallback_episode_rate": 0.5333333333333333,
+  "response_cap_hit_episode_rate": 0.3333333333333333,
+  "parse_fallback_step_count": 42,
+  "parse_repaired_step_count": 0,
+  "heuristic_rescue_step_count": 0,
+  "empty_fallback_step_count": 42,
+  "task2_visible_floor_step_count": 0,
+  "response_cap_hit_step_count": 10,
+  "finish_reason_counts": {
+    "stop": 200,
+    "length": 10
+  },
+  "benchmark_runtime_versions": [
+    "2026-04-07-shell-overhaul-v6"
+  ]
+}

@@ -1,0 +1,185 @@
+initiative_effects:
+  fix_login_bug:
+    kind: retention
+    cost: 3
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Login reliability fix reduced onboarding friction and lifted account confidence."
+    deltas:
+      growth: 0.01
+      retention: 0.08
+      revenue: 0.01
+      efficiency: -0.01
+  launch_referral_loop:
+    kind: growth
+    cost: 4
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Referral loop adoption started compounding acquisition after launch."
+    deltas:
+      growth: 0.10
+      retention: -0.01
+      revenue: 0.02
+      efficiency: -0.02
+  ship_usage_pricing:
+    kind: revenue
+    cost: 4
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Usage-based pricing landed in billing and changed monetization behavior."
+    deltas:
+      growth: -0.01
+      retention: -0.02
+      revenue: 0.10
+      efficiency: 0.01
+  optimize_infra:
+    kind: efficiency
+    cost: 3
+    lag_steps: 1
+    effect_window: 3
+    delivery_note: "Infra optimization lowered cost-to-serve over multiple days."
+    deltas:
+      growth: 0.00
+      retention: 0.00
+      revenue: 0.02
+      efficiency: 0.09
+  improve_onboarding:
+    kind: growth
+    cost: 2
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Improved onboarding increased activation and supported better early retention."
+    deltas:
+      growth: 0.07
+      retention: 0.02
+      revenue: 0.01
+      efficiency: -0.01
+  automate_support_triage:
+    kind: efficiency
+    cost: 2
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Support automation reduced manual load and improved response consistency."
+    deltas:
+      growth: 0.00
+      retention: 0.03
+      revenue: 0.02
+      efficiency: 0.06
+  launch_admin_analytics:
+    kind: revenue
+    cost: 3
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Admin analytics unlocked expansion conversations with larger accounts."
+    deltas:
+      growth: 0.02
+      retention: 0.02
+      revenue: 0.07
+      efficiency: 0.00
+  refactor_incident_tooling:
+    kind: efficiency
+    cost: 3
+    lag_steps: 1
+    effect_window: 3
+    delivery_note: "Incident tooling reduced repeated outages and support escalations."
+    deltas:
+      growth: 0.00
+      retention: 0.03
+      revenue: 0.01
+      efficiency: 0.08
+  partner_marketplace_seed:
+    split: heldout
+    kind: growth
+    cost: 4
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Partner marketplace pilots opened a new acquisition surface with uneven but real momentum."
+    deltas:
+      growth: 0.09
+      retention: 0.01
+      revenue: 0.03
+      efficiency: -0.02
+  developer_conversion_grants:
+    split: heldout
+    kind: growth
+    cost: 3
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Migration grants improved developer-led conversion and softened early setup friction."
+    deltas:
+      growth: 0.08
+      retention: 0.02
+      revenue: 0.01
+      efficiency: -0.01
+  security_assurance_pool:
+    split: heldout
+    kind: retention
+    cost: 3
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Security assurance work stabilized trust for sensitive accounts under scrutiny."
+    deltas:
+      growth: 0.01
+      retention: 0.08
+      revenue: 0.02
+      efficiency: -0.01
+  ship_success_health_scores:
+    split: heldout
+    kind: retention
+    cost: 2
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Health scoring improved early intervention on accounts drifting toward churn."
+    deltas:
+      growth: 0.01
+      retention: 0.07
+      revenue: 0.02
+      efficiency: 0.00
+  enterprise_procurement_desk:
+    split: heldout
+    kind: revenue
+    cost: 4
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Procurement acceleration reduced deal friction on larger commercial expansions."
+    deltas:
+      growth: 0.01
+      retention: 0.01
+      revenue: 0.10
+      efficiency: 0.01
+  seat_tier_packaging_lab:
+    split: heldout
+    kind: revenue
+    cost: 3
+    lag_steps: 2
+    effect_window: 2
+    delivery_note: "Seat-tier packaging improved monetization clarity for enterprise buying centers."
+    deltas:
+      growth: -0.01
+      retention: 0.00
+      revenue: 0.08
+      efficiency: 0.01
+  platform_resilience_reserve:
+    split: heldout
+    kind: efficiency
+    cost: 3
+    lag_steps: 1
+    effect_window: 3
+    delivery_note: "Resilience work reduced operational surprises and trimmed support-driven fire drills."
+    deltas:
+      growth: 0.00
+      retention: 0.02
+      revenue: 0.01
+      efficiency: 0.09
+  backoffice_standardization_pool:
+    split: heldout
+    kind: efficiency
+    cost: 2
+    lag_steps: 1
+    effect_window: 2
+    delivery_note: "Standardized support and finance workflows lowered coordination overhead."
+    deltas:
+      growth: 0.00
+      retention: 0.02
+      revenue: 0.01
+      efficiency: 0.07

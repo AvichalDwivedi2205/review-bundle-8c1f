@@ -1,0 +1,70 @@
+{
+  "figures_dir": "outputs/paper-freeze-2026-04-18/figures",
+  "figure_count": 16,
+  "figures": {
+    "benchmark_overview": [
+      "outputs/paper-freeze-2026-04-18/figures/benchmark_overview.png",
+      "outputs/paper-freeze-2026-04-18/figures/benchmark_overview.pdf"
+    ],
+    "task_timelines": [
+      "outputs/paper-freeze-2026-04-18/figures/task_timelines.png",
+      "outputs/paper-freeze-2026-04-18/figures/task_timelines.pdf"
+    ],
+    "baseline_separation": [
+      "outputs/paper-freeze-2026-04-18/figures/baseline_separation.png",
+      "outputs/paper-freeze-2026-04-18/figures/baseline_separation.pdf"
+    ],
+    "family_scaling": [
+      "outputs/paper-freeze-2026-04-18/figures/family_scaling.png",
+      "outputs/paper-freeze-2026-04-18/figures/family_scaling.pdf"
+    ],
+    "overall_vs_native": [
+      "outputs/paper-freeze-2026-04-18/figures/overall_vs_native.png",
+      "outputs/paper-freeze-2026-04-18/figures/overall_vs_native.pdf"
+    ],
+    "action_reliability": [
+      "outputs/paper-freeze-2026-04-18/figures/action_reliability.png",
+      "outputs/paper-freeze-2026-04-18/figures/action_reliability.pdf"
+    ],
+    "token_pressure_vs_native_rate": [
+      "outputs/paper-freeze-2026-04-18/figures/token_pressure_vs_native_rate.png",
+      "outputs/paper-freeze-2026-04-18/figures/token_pressure_vs_native_rate.pdf"
+    ],
+    "shifted_vs_unshifted": [
+      "outputs/paper-freeze-2026-04-18/figures/shifted_vs_unshifted.png",
+      "outputs/paper-freeze-2026-04-18/figures/shifted_vs_unshifted.pdf"
+    ],
+    "scaling_transition_map": [
+      "outputs/paper-freeze-2026-04-18/figures/scaling_transition_map.png",
+      "outputs/paper-freeze-2026-04-18/figures/scaling_transition_map.pdf"
+    ],
+    "task_heatmap": [
+      "outputs/paper-freeze-2026-04-18/figures/task_heatmap.png",
+      "outputs/paper-freeze-2026-04-18/figures/task_heatmap.pdf"
+    ],
+    "subscore_heatmap": [
+      "outputs/paper-freeze-2026-04-18/figures/subscore_heatmap.png",
+      "outputs/paper-freeze-2026-04-18/figures/subscore_heatmap.pdf"
+    ],
+    "heldout_gap": [
+      "outputs/paper-freeze-2026-04-18/figures/heldout_gap.png",
+      "outputs/paper-freeze-2026-04-18/figures/heldout_gap.pdf"
+    ],
+    "leakage_audit": [
+      "outputs/paper-freeze-2026-04-18/figures/leakage_audit.png",
+      "outputs/paper-freeze-2026-04-18/figures/leakage_audit.pdf"
+    ],
+    "reliability_ci": [
+      "outputs/paper-freeze-2026-04-18/figures/reliability_ci.png",
+      "outputs/paper-freeze-2026-04-18/figures/reliability_ci.pdf"
+    ],
+    "adaptation_audit": [
+      "outputs/paper-freeze-2026-04-18/figures/adaptation_audit.png",
+      "outputs/paper-freeze-2026-04-18/figures/adaptation_audit.pdf"
+    ],
+    "shell_controlled_diagnostic": [
+      "outputs/paper-freeze-2026-04-18/figures/shell_controlled_diagnostic.png",
+      "outputs/paper-freeze-2026-04-18/figures/shell_controlled_diagnostic.pdf"
+    ]
+  }
+}

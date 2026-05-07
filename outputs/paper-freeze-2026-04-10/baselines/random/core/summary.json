@@ -1,0 +1,71 @@
+{
+  "mean_scores": {
+    "task3_startup_week": 0.293195,
+    "task6_incident_response_week": 0.26249500000000003,
+    "task7_quarterly_headcount_plan": 0.35184
+  },
+  "strict_mean_scores": {
+    "task3_startup_week": 0.293195,
+    "task6_incident_response_week": 0.26249500000000003,
+    "task7_quarterly_headcount_plan": 0.35184
+  },
+  "rescued_mean_scores": {
+    "task3_startup_week": 0.0,
+    "task6_incident_response_week": 0.0,
+    "task7_quarterly_headcount_plan": 0.0
+  },
+  "shifted_mean_scores": {
+    "task3_startup_week": 0.28170666666666666,
+    "task6_incident_response_week": 0.24422,
+    "task7_quarterly_headcount_plan": 0.3297466666666667
+  },
+  "unshifted_mean_scores": {
+    "task3_startup_week": 0.32765999999999995,
+    "task6_incident_response_week": 0.31732,
+    "task7_quarterly_headcount_plan": 0.41811999999999994
+  },
+  "primary_mean_scores": {
+    "task3_startup_week": 0.293195,
+    "task6_incident_response_week": 0.26249500000000003,
+    "task7_quarterly_headcount_plan": 0.35184
+  },
+  "primary_metric": "score",
+  "paper_safe": true,
+  "overall_mean_score": 0.30251,
+  "strict_native_overall_mean_score": 0.30251,
+  "assisted_overall_mean_score": 0.0,
+  "shifted_overall_mean_score": 0.28522444444444445,
+  "unshifted_overall_mean_score": 0.35436666666666666,
+  "episodes_expected": 60,
+  "episode_count": 60,
+  "episodes_completed": 60,
+  "run_complete": true,
+  "completion_status": "complete",
+  "duplicate_episode_row_count": 0,
+  "strict_episode_count": 60,
+  "rescued_episode_count": 0,
+  "heuristic_rescue_episode_count": 0,
+  "empty_fallback_episode_count": 0,
+  "parse_fallback_episode_count": 0,
+  "parse_repaired_episode_count": 0,
+  "task2_visible_floor_episode_count": 0,
+  "response_cap_hit_episode_count": 0,
+  "parse_fallback_count": 0,
+  "parse_repaired_count": 0,
+  "shifted_episode_count": 45,
+  "unshifted_episode_count": 15,
+  "native_action_episode_rate": 1.0,
+  "assisted_episode_rate": 0.0,
+  "empty_fallback_episode_rate": 0.0,
+  "response_cap_hit_episode_rate": 0.0,
+  "parse_fallback_step_count": 0,
+  "parse_repaired_step_count": 0,
+  "heuristic_rescue_step_count": 0,
+  "empty_fallback_step_count": 0,
+  "task2_visible_floor_step_count": 0,
+  "response_cap_hit_step_count": 0,
+  "finish_reason_counts": {},
+  "benchmark_runtime_versions": [
+    "2026-04-06-output-hardening-v2"
+  ]
+}

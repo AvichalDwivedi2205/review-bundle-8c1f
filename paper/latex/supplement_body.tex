@@ -1,0 +1,574 @@
+\section{Protocol Snapshot}
+
+This supplement is intentionally narrower than the main paper. It records the
+frozen protocol, serving path, supplementary diagnostics, and provenance for
+the strengthened bundle at \texttt{outputs/paper-freeze-2026-04-18}. It does
+not repeat the main model table or baseline table, which are already reported
+in the main paper. The paper-facing benchmark has three sequential
+environments; the main manuscript centers P1 and P2 as the result-bearing
+anchor tasks and treats P3 as shorter breadth evidence. Auxiliary one-shot
+tasks in the code release are for smoke tests and extensibility, not headline
+claims.
+
+\begin{table}[!h]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lllp{0.12\linewidth}p{0.38\linewidth}}
+    \toprule
+    Paper ID & Environment & Internal id & Horizon & Purpose \\
+    \midrule
+    P1 & Startup Week & task3 & 10 & Long-horizon latent-goal tracking under delayed effects. \\
+    P2 & Incident Response Week & task6 & 7 & Shift adaptation under governance and recovery pressure. \\
+    P3 & Quarterly Headcount Plan & task7 & 4 & Shorter planning-breadth task under reprioritization. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Paper-facing environments in the frozen benchmark. Internal ids are
+  kept only for code and manifest provenance.}
+  \label{tab:taskcatalog}
+\end{table}
+
+\section{Latent Objective and Public Schema}
+
+The hidden objective is a structured latent state rather than a single class
+label. It combines an archetype, a four-channel weight vector, a primary KPI,
+and discrete operating attributes such as risk posture, planning horizon,
+segment focus, and governance strictness. Table~\ref{tab:archetypes} gives the
+base archetypes used in the frozen benchmark.
+
+\begin{table}[!h]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{lp{0.24\linewidth}p{0.14\linewidth}p{0.36\linewidth}}
+    \toprule
+    Archetype & Channel weights & KPI & Operating attributes \\
+    \midrule
+    Growth & $(0.55, 0.15, 0.20, 0.10)$ & DAU & aggressive risk; quarterly planning; flexible governance; self-serve segment \\
+    Retention & $(0.10, 0.60, 0.15, 0.15)$ & D30 retention & balanced risk; quarterly planning; strict governance; enterprise segment \\
+    Revenue & $(0.10, 0.20, 0.55, 0.15)$ & MRR & balanced risk; quarterly planning; moderate governance; mid-market segment \\
+    Efficiency & $(0.10, 0.15, 0.15, 0.60)$ & Ops margin & conservative risk; strategic planning; strict governance; enterprise segment \\
+    \bottomrule
+  \end{tabular}
+  \caption{Base latent-goal archetypes. Channel order is growth, retention, revenue, efficiency.}
+  \label{tab:archetypes}
+\end{table}
+
+In the frozen configuration, shifts occur with probability $0.6$; shift steps
+are sampled from $\{3,4,5\}$; and the shift can be abrupt or drift-like. The
+public schema exposes recurring customer accounts, stakeholders, internal
+teams, market context, and governance constraints, while redacting the latent
+channel decomposition and hidden utility weights.
+
+\section{Formal Benchmark Definition}
+
+\begin{table}[tbp]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{ll}
+    \toprule
+    Symbol & Meaning \\
+    \midrule
+    $x_t$ & hidden environment state at step $t$ \\
+    $o_t$ & public observation exposed to the model \\
+    $a_t$ & structured action emitted by the model \\
+    $g_t$ & active hidden objective state \\
+    $m_t$ & normalized four-channel public metric vector \\
+    $w_t$ & active latent utility weight vector \\
+    $U_t$ & latent utility under the active objective \\
+    $q_t$ & normalized decision quality at step $t$ \\
+    $\tilde{q}_t$ & stale-objective decision quality after a shift \\
+    $A$ & adaptation score \\
+    $C$ & trajectory coherence score \\
+    $K$ & constraint-satisfaction score \\
+    $\Delta_{\mathrm{shell}}$ & native-only minus overall score \\
+    $\Delta_{\mathrm{shift}}$ & unshifted minus shifted score \\
+    \bottomrule
+  \end{tabular}
+  \caption{Core notation used in the formal benchmark definition.}
+  \label{tab:notation}
+\end{table}
+
+Let $x_t$ denote the hidden environment state at step $t$, let
+$o_t = \psi(x_t)$ be the public observation exposed to the model, and let
+$a_t \in \mathcal{A}$ be a structured action emitted through the benchmark's
+action schema. An episode is a partially observed trajectory
+\[
+\tau = (o_0, a_0, o_1, a_1, \ldots, o_T).
+\]
+The hidden objective state is $g_t$, which determines which latent business
+outcomes matter at time $t$. The agent never observes $g_t$ directly.
+
+\paragraph{Latent utility.}
+The environment maintains a normalized four-channel metric vector
+$m_t \in [0,1]^4$ over growth, retention, revenue, and efficiency. The active
+latent objective induces a weight vector $w_t \in \Delta^4$. The latent utility
+used by the graders is
+\[
+U_t = \mathrm{clip}_{[0,1]} \left( \sum_{c \in \mathcal{C}} m_{t,c} \, w_{t,c} \right),
+\qquad
+\mathcal{C} = \{\text{growth}, \text{retention}, \text{revenue}, \text{efficiency}\}.
+\]
+
+When a hidden shift is present, the active objective changes from a base
+objective $g^{(0)}$ to a shifted objective $g^{(1)}$ at step $t_\star$. The
+implementation supports abrupt shifts and drift shifts. If the shift is
+abrupt, $w_t = w^{(1)}$ for all $t \ge t_\star$. If the shift is a drift over
+duration $d$, then the active weight vector is a normalized convex blend
+\[
+w_t = \mathrm{Normalize}\!\left((1-\rho_t)w^{(0)} + \rho_t w^{(1)}\right),
+\qquad
+\rho_t = \mathrm{clip}_{[0,1]}\!\left(\frac{t-t_\star+1}{d}\right).
+\]
+The shift is never explicitly announced to the model; it must be inferred from
+changed consequences and public operating evidence.
+
+For the three paper-facing environments, the overall score is a weighted combination of
+final latent utility $U$, adaptation $A$, coherence $C$, and constraint
+satisfaction $K$:
+\[
+S_{\mathrm{P1}} = 0.50\,U + 0.25\,A + 0.15\,C + 0.10\,K,
+\]
+\[
+S_{\mathrm{P2}} = 0.4634\,U + 0.2927\,A + 0.1220\,C + 0.1220\,K,
+\]
+\[
+S_{\mathrm{P3}} = 0.6364\,U + 0.2614\,A + 0.0568\,C + 0.0454\,K.
+\]
+
+\begin{table}[tbp]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Task & Utility & Adaptation & Coherence & Constraints \\
+    \midrule
+    Startup Week & 0.5000 & 0.2500 & 0.1500 & 0.1000 \\
+    Incident Response Week & 0.4634 & 0.2927 & 0.1220 & 0.1220 \\
+    Quarterly Headcount Plan & 0.6364 & 0.2614 & 0.0568 & 0.0454 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Prespecified score coefficients for the paper-facing sequential
+  tasks. These weights make adaptation and constraint behavior visible while
+  preserving final latent utility as the largest single component.}
+  \label{tab:scoreweights}
+\end{table}
+
+Let $q_t \in [0,1]$ be the normalized decision quality at step $t$, defined as
+agent decision value divided by oracle decision value under the \emph{active}
+objective. After a shift, the implementation also computes a stale-objective
+quality $\tilde{q}_t$ whenever the base objective remains well-defined. The
+first detected adaptation step for P1 and P2 is
+\[
+t_{\mathrm{det}} = \min \left\{ t \ge t_\star :
+q_t \ge \max(0.72, \tilde{q}_t + 0.05) \right\},
+\]
+with the fallback rule $t_{\mathrm{det}} = T$ if no post-shift step crosses the
+threshold. The remaining adaptation terms are
+\[
+R = \frac{1}{|D|} \sum_{t \in D} q_t,
+\qquad
+\mathrm{speed} = 1 - \frac{t_{\mathrm{det}} - t_\star}{\max(T - t_\star + 1, 1)},
+\]
+where $D = \{t_{\mathrm{det}}, \ldots, T\}$ if detection occurs and
+$D=\varnothing$ otherwise. For P1 and P2, the adaptation score is
+\[
+A = 0.55 \cdot \mathrm{speed} + 0.45 \cdot R.
+\]
+
+P3 uses the same final weighted-score framework but a shorter-horizon
+adaptation rule. Its detected adaptation step uses threshold
+\[
+q_t \ge \max(0.60, \tilde{q}_t + 0.02),
+\]
+with the same fallback of no post-detection recovery when the threshold is not
+crossed. Let $R_7$ be mean post-detection decision quality, let
+$\mathrm{speed}_7$ be the normalized detection-speed term over the post-shift
+window, and let $C_{\mathrm{post}}$ be trajectory coherence over post-shift
+actions. Then
+\[
+A_7 = (0.40 \cdot \mathrm{speed}_7 + 0.60 \cdot R_7) C_{\mathrm{post}}.
+\]
+When an episode has no hidden shift, the adaptation component is marked not
+applicable and the weighted score is renormalized over the active components
+only. When a shift exists but no post-shift decision row is available,
+adaptation is scored as 0.0.
+
+\begin{table}[tbp]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{p{0.11\linewidth}p{0.22\linewidth}p{0.19\linewidth}p{0.30\linewidth}}
+    \toprule
+    Task & Detection rule & Adaptation mix & Coherence and no-shift handling \\
+    \midrule
+    P1 Startup Week & $q_t \ge \max(0.72,\tilde{q}_t+0.05)$ & $0.55$ speed, $0.45$ recovery & Coherence ignores the true pivot; unshifted episodes omit adaptation and renormalize. \\
+    P2 Incident Response Week & $q_t \ge \max(0.72,\tilde{q}_t+0.05)$ & $0.55$ speed, $0.45$ recovery & Coherence ignores the true pivot; unshifted episodes omit adaptation and renormalize. \\
+    P3 Quarterly Headcount Plan & $q_t \ge \max(0.60,\tilde{q}_t+0.02)$ & $0.40$ speed, $0.60$ recovery & Adaptation is multiplied by post-shift coherence; unshifted episodes omit adaptation and renormalize. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Adaptation parameters for P1--P3. Shifted episodes without
+  detection receive zero post-detection recovery; unshifted episodes omit
+  adaptation and renormalize the score.}
+  \label{tab:adaptparams}
+\end{table}
+
+Trajectory coherence is the mean within-regime cosine similarity between
+successive action-strategy embeddings, ignoring the single pivot induced by a
+true objective shift. To separate latent-policy failure from interface failure,
+the paper also reports
+\[
+\Delta_{\mathrm{shell}} = S_{\mathrm{native}} - S_{\mathrm{overall}},
+\qquad
+\Delta_{\mathrm{shift}} = S_{\mathrm{unshifted}} - S_{\mathrm{shifted}},
+\]
+where $S_{\mathrm{native}}$ is the mean score over episodes that remain fully
+native to the structured action interface and $S_{\mathrm{overall}}$ includes
+fallback-affected episodes.
+
+\section{Serving, Metadata, and Interface}
+
+The strengthened paper protocol uses runtime version
+\texttt{2026-04-07-shell-overhaul-v6} and freeze date \texttt{2026-04-18}. The
+resolved manifest is the source of truth for the freeze: the analysis root
+collects validated model runs, baseline runs, diagnostics, and targeted top-ups
+under one dated paper bundle while preserving their original relative run
+directories. The artifact bundle contains 10 locally served primary benchmark
+configurations and one API-served external anchor across four served families:
+\begin{itemize}[leftmargin=1.5em]
+  \item Qwen3.5: 2B, 9B, 27B~\citep{qwen3};
+  \item DeepSeek-R1: 1.5B, 8B, 14B~\citep{deepseekr1};
+  \item Gemma4: 2B, 4B, 26B~\citep{gemma,gemma3};
+  \item GPT-OSS: 20B locally, 120B as an external API anchor~\citep{gptoss}.
+\end{itemize}
+
+The strengthened bundle contains:
+\begin{itemize}[leftmargin=1.5em]
+  \item 630 primary model episode rows;
+  \item 60 external-anchor episode rows;
+  \item 360 baseline episode rows;
+  \item 84 leakage-probe rows;
+  \item generated tables, figures, case studies, and protocol descriptors tied
+  to the frozen bundle.
+\end{itemize}
+
+The online environment also maintains a leakage-safe shaped reward used during
+interaction, but not as the final benchmark metric.
+
+The strengthened artifact bundle mixes two execution paths: local Ollama
+serving for the 10 primary benchmark configurations and OpenRouter API serving
+for GPT-OSS-120B. The provider difference is made explicit and GPT-OSS-120B is
+reported only as an external anchor rather than as a load-bearing point in the
+main scaling matrix.
+
+\input{generated/runtime_table.tex}
+
+The runtime table reports the visible serving path, token volume, cost, and
+interface-reliability summaries for each primary model/split. Exact raw model
+aliases, run roots, and role labels are preserved in
+\texttt{metadata/paper\_protocol\_resolved.json} and
+\texttt{metadata/run\_manifest.json}. The release also includes provider-path
+and token-count records in \texttt{paper/release/COMPUTE.md}; the original
+worker inventory is partially preserved, so the checklist marks full compute
+inventory disclosure conservatively while keeping the runnable evaluation
+artifact reproducible from the shipped manifest.
+
+\section{Action Interface and Failure Taxonomy}
+
+The action interface is intentionally narrow. On P1 and P2, a valid action
+contains a task id plus a JSON-like payload with four core keys:
+\texttt{chosen\_initiatives}, \texttt{messaging\_action},
+\texttt{pricing\_change\_pct}, and \texttt{support\_policy}. Optional
+rationale, memory, and belief notes may also be present. The allowed messaging
+values are growth push, retention campaign, revenue upsell, cost comms, and
+none. The allowed support policies are premium SLA, balanced triage,
+automation first, and incident swarm. P3 uses the same action envelope but
+replaces initiative/package selection with \texttt{budget\_allocations}.
+Validation rejects irrelevant cross-task fields.
+
+\begin{table}[tbp]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lp{0.20\linewidth}p{0.16\linewidth}p{0.35\linewidth}}
+    \toprule
+    Signal & Operational meaning & Log field & Why it matters \\
+    \midrule
+    Native step & Action parses and satisfies the schema & strict action valid & Lets us attribute reward to the model's policy rather than fallback behavior. \\
+    Empty fallback & Parser returns an empty/default action & empty fallback & Damaging in sequential tasks because the world advances while the model does little useful work. \\
+    Cap hit & Response exceeds the output cap & response cap hit & Separates verbosity-related truncation from ordinary policy error. \\
+    Parse repair & Action required bounded repair before execution & appendix diagnostic only & Tests whether failure is a lightweight parser issue or a deeper interface-control problem. \\
+    Native episode rate & Fraction of episodes that remain native throughout & aggregated metric & Primary paper signal for shell reliability at the episode level. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Action-interface failure taxonomy used throughout the paper.}
+  \label{tab:failtaxonomy}
+\end{table}
+
+\section{Supplementary Reference Tables}
+
+The main model and baseline tables are reported in the main paper. This section
+keeps only the external anchor and the diagnostics that are specific to the
+supplementary analysis.
+
+\input{generated/external_anchor_table.tex}
+
+\input{generated/benchmark_health_table.tex}
+
+\input{generated/score_sensitivity_table.tex}
+
+The sensitivity table is best read as a construct check. Baseline ordering is
+stable for the original, utility-only, balanced, adaptation-heavy, and
+adaptation-light variants on both splits. The no-coherence variant is included
+as a useful boundary case: it removes one piece of the sequential-behavior
+signal and breaks core baseline ordering. This supports keeping coherence as a
+small but nonzero component of the prespecified score. The utility-only rows
+also clarify why LatentGoalOps should not be interpreted as a final-state
+utility benchmark alone: once adaptation is removed, the myopic-oracle gap
+shrinks sharply even though the shifted-episode penalty remains visible.
+
+\input{generated/leakage_compact_table.tex}
+
+\input{generated/adaptation_audit_table.tex}
+
+\input{generated/shell_controlled_diagnostic_table.tex}
+
+The shell-controlled diagnostic is an appendix mechanism check focused on the
+two week-long anchor tasks, Startup Week and Incident Response Week. It is not
+used as a replacement for the headline three-task aggregate; instead, it tests
+whether parse repair alone explains the largest interface-mediated drops.
+
+\input{generated/scaling_transition_table.tex}
+
+Full per-environment and subscore tables are shipped as machine-readable CSV
+files and LaTeX fragments under \texttt{outputs/paper-freeze-2026-04-18/tables}
+and \texttt{paper/latex/generated}. They are intentionally not expanded here so
+the supplement remains readable and free of float-only table pages.
+
+\section{Supplementary Figures}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/overall_vs_native.pdf}
+\vspace{0.3em}
+  \includegraphics[width=0.92\linewidth]{\figdir/action_reliability.pdf}
+  \caption{Primary interface diagnostics. Top: observed score versus
+  native-only score. Bottom: native-action, empty-fallback, and cap-hit rates
+  on the frozen primary-task aggregate.}
+  \label{fig:supp:native-reliability}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/shifted_vs_unshifted.pdf}
+  \caption{Shifted episodes remain materially harder than no-shift episodes on
+  the frozen primary-task aggregate. Error bars denote 95\% bootstrap
+  confidence intervals for the score aggregates.}
+  \label{fig:supp:shifted}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/task_heatmap.pdf}
+\vspace{0.3em}
+  \includegraphics[width=0.92\linewidth]{\figdir/subscore_heatmap.pdf}
+  \caption{Primary-task heatmaps. Top: task-level performance on the frozen
+  main-task core. Bottom: subscore decomposition across utility, adaptation,
+  coherence, and constraints.}
+  \label{fig:supp:heatmaps}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/shell_controlled_diagnostic.pdf}
+\vspace{0.3em}
+  \includegraphics[width=0.92\linewidth]{\figdir/token_pressure_vs_native_rate.pdf}
+  \caption{Interface-mechanism diagnostics. Top: shell-controlled diagnostic;
+  parse repair produces only modest improvement for Qwen 27B and does not
+  rescue Gemma 26B. Bottom: token pressure versus native-action reliability;
+  the most shell-fragile large-model runs are also the most verbose.}
+  \label{fig:supp:shell-token}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/adaptation_audit.pdf}
+\vspace{0.3em}
+  \includegraphics[width=0.92\linewidth]{\figdir/leakage_audit.pdf}
+  \caption{Adaptation and leakage diagnostics. Top: adaptation audit showing
+  mean adaptation score and zero-adaptation episode rate by task and split.
+  Bottom: leakage audit across restricted observation views on the primary
+  aggregate tasks. Chance is 0.25 for the four-way archetype probe, and the
+  explicit-goal-token rate is 0.0 throughout the frozen audit.}
+  \label{fig:supp:adapt-leakage}
+\end{figure}
+
+\begin{figure}[tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{\figdir/heldout_gap.pdf}
+\vspace{0.3em}
+  \includegraphics[width=0.92\linewidth]{\figdir/reliability_ci.pdf}
+  \caption{Generalization and repeatability diagnostics. Top: heldout-minus-core
+  gap on the primary aggregate tasks. Bottom: repeat-based reliability
+  estimates where repeat coverage exists; GPT-OSS 120B remains a low-coverage
+  appendix anchor rather than a load-bearing comparison.}
+  \label{fig:supp:transfer-reliability}
+\end{figure}
+
+\subsection*{Leakage Audit Details}
+
+The leakage figure condenses the frozen leakage table
+\texttt{tables/leakage\_results.csv} inside the paper-freeze artifact bundle.
+On the primary tasks, the full-observation centroid probe is 0.20 on core
+Startup Week, 0.20 on core Incident Response Week, 0.25 on core Quarterly
+Headcount Plan, and 0.15--0.20 on the corresponding heldout slices.
+Restricted views such as \texttt{numeric\_only},
+\texttt{sender\_only}, and \texttt{stakeholder\_order\_only} remain near the
+four-way chance regime, while \texttt{explicit\_goal\_token\_rate} is 0.0 in
+every frozen probe output.
+
+\section{Case Studies and Provenance}
+
+The frozen bundle includes four qualitative trajectory analyses:
+\begin{itemize}[leftmargin=1.5em]
+  \item \texttt{deepseek14\_success.md}
+  \item \texttt{qwen27\_interface\_failure.md}
+  \item \texttt{gemma26\_interface\_failure.md}
+  \item \texttt{qwen9\_native\_policy\_regression.md}
+\end{itemize}
+
+\begin{table}[H]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{lp{0.13\linewidth}p{0.18\linewidth}cp{0.34\linewidth}}
+    \toprule
+    Model & Split & Task & Score & Dominant diagnosis \\
+    \midrule
+    DeepSeek 14B & core & Incident Response Week & 0.6353 & Fully native, coherent incident-focused policy that keeps support and messaging aligned while delayed effects land. \\
+    Qwen 27B & core & Incident Response Week & 0.2564 & Starts with a plausible action, then falls into repeated empty fallbacks after the hidden shift. \\
+    Gemma 26B & heldout & Startup Week & 0.2561 & Mixed shell/policy failure with repeated empty steps, cap hits, and almost no recovery traction. \\
+    Qwen 9B & core & Startup Week & 0.3070 & Fully native trajectory that stays schema-correct but keeps reverting to stale startup moves after the hidden shift. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Curated case-study summary used in the supplement discussion.}
+  \label{tab:casestudies}
+\end{table}
+
+Table~\ref{tab:trajectory-excerpts} adds transcript-style trajectory snippets.
+Unlike a dialogue benchmark, LatentGoalOps exposes structured operating state
+and structured actions, so each row pairs a compact state snapshot with a
+paraphrase of the executed action rather than dumping raw JSON payloads.
+
+Across the four frozen case studies, similar scalar scores can arise from
+meaningfully different mechanisms. DeepSeek 14B provides the clean positive
+control: the action shell remains native and the policy stays incident-focused
+while delayed effects resolve. Qwen 27B shows a different pattern, where one
+mid-episode shell break is followed by a policy over-correction into aggressive
+startup moves. Qwen 9B is useful because it removes shell collapse from the
+story almost entirely: the trajectory stays schema-correct but keeps reverting
+to stale growth behavior after the hidden shift. Gemma 26B combines both
+failure classes, with repeated empty actions and almost no policy recovery.
+That qualitative separation is why the paper reports strict score, native-only
+score, and native-episode rate together rather than collapsing everything into
+a single scalar.
+
+\begin{table*}[tbp]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{p{0.08\textwidth}p{0.15\textwidth}p{0.26\textwidth}p{0.38\textwidth}}
+    \toprule
+    Step/day & Observed state & Executed action (paraphrased) & What the snippet shows \\
+    \midrule
+    \multicolumn{4}{l}{\textbf{DeepSeek 14B, core Incident Response Week, score 0.6353, fully native}} \\
+    Step 0 / Day 2 & 3 pending effects; early incident week state still unstable & Cut usage pricing 10\%, keep retention messaging, keep incident-swarm support, push usage-pricing initiative & Starts with a service-preserving move even before delayed effects land; no shell instability and no thrashing across goals. \\
+    Step 2 / Day 4 & 4 pending effects; incident backlog still active & Optimize infra while keeping retention messaging and incident-swarm support & Mid-episode policy stays incident-focused instead of pivoting to generic growth or cost moves. \\
+    Step 5 / Day 7 & 2 pending effects; delayed effects still resolving & Refactor infra, keep retention messaging, keep incident-swarm support, cut usage pricing 10\% & Strong positive reward arrives without the model abandoning its earlier operational stance. \\
+    Step 6 / Day 8 & 0 pending effects; week closes cleanly & Refactor incident tooling, keep retention messaging, keep incident-swarm support & Coherent finish: action shell stays native, and policy remains aligned through episode end. \\
+    \midrule
+    \multicolumn{4}{l}{\textbf{Qwen 27B, core Startup Week, score 0.3685, shell collapse after hidden shift}} \\
+    Step 0 / Day 2 & 5 pending effects; early startup state & Optimize infra, refactor incident tooling, automate support triage; cost-oriented messaging; automation-first support & Plausible pre-shift startup move; qualitative issue is not immediate nonsense but what happens after state changes. \\
+    Step 3 / Day 5 & 0 pending effects; post-shift transition point & Empty fallback action \{\} after parse failure & Critical shell break: world advances, but model contributes nothing useful at exactly the point where adaptation pressure matters most. \\
+    Step 6 / Day 8 & 5 pending effects; recovery attempt under new state & Ship usage pricing, switch to revenue upsell, move to premium-SLA support & Over-corrects into aggressive revenue posture after the shell break instead of recovering a stable startup policy. \\
+    Steps 7--9 / Days 9--11 & Pending effects shrink, but score remains negative & Repeats referral-loop plus growth-push moves despite negative rewards & Failure mode is not only one malformed step; policy stays stale and misaligned even after shell recovers. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Transcript-style trajectory excerpts paraphrased from the frozen
+  case-study markdowns. These are qualitative observation-action snapshots,
+  not chain-of-thought traces. They make two distinct failure modes concrete:
+  coherent native adaptation versus interface collapse followed by policy
+  over-correction.}
+  \label{tab:trajectory-excerpts}
+\end{table*}
+
+The strengthened bundle is organized to support direct regeneration of the
+paper assets:
+
+\begin{verbatim}
+outputs/paper-freeze-2026-04-18/
+  tables/
+  figures/
+  case_studies/
+  metadata/
+\end{verbatim}
+
+The \texttt{tables/} and \texttt{figures/} directories contain the analysis
+outputs consumed by the manuscript. The \texttt{case\_studies/} directory
+stores curated trajectory narratives, and \texttt{metadata/} contains the
+frozen manifest and protocol descriptors. The exact upstream raw run
+directories needed to rebuild those assets are enumerated in
+\texttt{metadata/run\_manifest.json} and are shipped in the anonymous reviewer
+archive under their original relative paths rather than duplicated inside the
+\texttt{2026-04-18} analysis root itself.
+
+\section{Reproducibility}
+
+The paper assets are generated with:
+
+\begin{verbatim}
+uv run paper-assets --config configs/paper_protocol_strengthened.yaml
+\end{verbatim}
+
+This command rebuilds the paper tables, figures, and case studies from the
+strengthened artifact bundle. The manuscript itself can be compiled with the
+bundled \texttt{tectonic} binary included in the repository tools directory.
+The submission's anonymous review archive contains the code, the
+\texttt{outputs/paper-freeze-2026-04-18} analysis root, the exact raw run
+directories referenced by the manifest, and the release documents
+\texttt{paper/release/REVIEW\_BUNDLE.md}, \texttt{paper/release/COMPUTE.md},
+and \texttt{paper/release/THIRD\_PARTY\_ASSETS.md}. Those materials make the
+benchmark runnable for reviewers while keeping the main paper focused on the
+benchmark claims rather than on packaging detail.
+
+\section{Threats to Validity}
+
+\subsection{Provider heterogeneity}
+
+Most frozen runs are local Ollama runs, while GPT-OSS-120B is served through
+OpenRouter. We therefore treat GPT-OSS-120B as an external anchor and not as a
+clean within-family local scaling point.
+
+\subsection{Interface confounding}
+
+Some large-model drops are clearly interface-mediated. Rather than hiding that
+fact, the paper makes it part of the result and reports strict overall score,
+native-only score, fallback rates, and the shell-controlled diagnostic.
+
+\subsection{Adaptation metric sharpness}
+
+The adaptation score for P1 and P2 uses a thresholded behavioral detection
+rule. That choice is operationally meaningful, but it also makes some slices of
+the benchmark harsher than a fully smooth scalar metric would. The supplement
+therefore includes both the formal definition and a dedicated adaptation audit.
+
+\subsection{Synthetic world construction}
+
+LatentGoalOps is synthetic by design. The claim is not that it replicates every
+real operating environment; it is that it isolates a capability that existing
+benchmarks often blur: hidden-objective tracking with delayed effects and
+silent non-stationarity. The construct-validity argument therefore relies on
+heldout splits, leakage audits, task design transparency, and baseline
+separation rather than on realism language alone.

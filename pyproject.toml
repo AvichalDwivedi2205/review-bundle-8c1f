@@ -1,0 +1,57 @@
+[project]
+name = "latentgoalops"
+version = "0.1.0"
+description = "LatentGoalOps: a research-grade OpenEnv benchmark for latent objective inference in startup operations"
+readme = "README.md"
+authors = [{ name = "Anonymous Authors", email = "anonymous@invalid.example" }]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.2",
+    "httpx>=0.28.1",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.3",
+    "openai>=2.30.0",
+    "openenv-core>=0.2.2",
+    "pandas>=3.0.1",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.2",
+    "pyyaml>=6.0.3",
+    "scipy>=1.17.1",
+    "seaborn>=0.13.2",
+    "tenacity>=9.1.4",
+    "uvicorn>=0.42.0",
+    "wandb>=0.25.1",
+]
+
+[project.scripts]
+latentgoalops = "latentgoalops:main"
+server = "latentgoalops.server.app:main"
+baseline = "latentgoalops.baseline.run_baseline:main"
+sweep-models = "latentgoalops.baseline.run_model_ladder:main"
+reliability = "latentgoalops.baseline.run_reliability:main"
+ablations = "latentgoalops.baseline.run_ablations:main"
+paper-suite = "latentgoalops.paper.run_paper_suite:main"
+paper-assets = "latentgoalops.paper.build_paper_assets:main"
+paper-latex = "latentgoalops.paper.export_latex_tables:main"
+paper-tables = "latentgoalops.analysis.make_paper_tables:main"
+paper-figures = "latentgoalops.analysis.make_paper_figures:main"
+paper-cases = "latentgoalops.analysis.make_case_studies:main"
+plots = "latentgoalops.analysis.report:main"
+audit-packets = "latentgoalops.analysis.audit:main"
+leakage-audit = "latentgoalops.analysis.leakage_audit:main"
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.1.0",
+]
+
+[tool.pytest.ini_options]
+norecursedirs = [
+    "artifacts",
+]

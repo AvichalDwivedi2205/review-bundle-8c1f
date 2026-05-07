@@ -1,0 +1,72 @@
+\begin{longtable}{llllrrr}
+\caption{Per-task subscore decomposition for all frozen model runs on P1--P3.} \label{tab:subscorelong} \\
+\toprule
+Task & Model & Split & Utility & Adapt. & Coherence & Constraints \\
+\midrule
+\endfirsthead
+\toprule
+Task & Model & Split & Utility & Adapt. & Coherence & Constraints \\
+\midrule
+\endhead
+    P1 & DeepSeek 1.5B & core & 0.361 & 0.000 & 0.978 & 0.575 \\
+    P1 & DeepSeek 1.5B & heldout & 0.361 & 0.000 & 0.958 & 0.610 \\
+    P1 & DeepSeek 8B & core & 0.361 & 0.101 & 0.664 & 0.805 \\
+    P1 & DeepSeek 8B & heldout & 0.376 & 0.180 & 0.749 & 0.830 \\
+    P1 & DeepSeek 14B & core & 0.375 & 0.090 & 0.621 & 0.940 \\
+    P1 & DeepSeek 14B & heldout & 0.377 & 0.195 & 0.752 & 0.750 \\
+    P1 & Gemma 2B & core & 0.362 & 0.000 & 0.929 & 0.565 \\
+    P1 & Gemma 2B & heldout & 0.366 & 0.000 & 1.000 & 0.610 \\
+    P1 & Gemma 4B & core & 0.362 & 0.132 & 0.583 & 0.760 \\
+    P1 & Gemma 4B & heldout & 0.376 & 0.237 & 0.813 & 0.800 \\
+    P1 & Gemma 26B & core & 0.360 & 0.154 & 0.187 & 0.970 \\
+    P1 & Gemma 26B & heldout & 0.368 & 0.000 & 0.305 & 0.940 \\
+    P1 & GPT-OSS 20B & core & 0.367 & 0.098 & 0.448 & 0.885 \\
+    P1 & GPT-OSS 20B & heldout & 0.377 & 0.057 & 0.324 & 0.860 \\
+    P1 & Qwen 2B & core & 0.360 & 0.000 & 0.995 & 0.565 \\
+    P1 & Qwen 2B & heldout & 0.361 & 0.000 & 1.000 & 0.610 \\
+    P1 & Qwen 9B & core & 0.362 & 0.000 & 0.691 & 0.645 \\
+    P1 & Qwen 9B & heldout & 0.373 & 0.198 & 0.738 & 0.560 \\
+    P1 & Qwen 27B & core & 0.376 & 0.117 & 0.586 & 0.685 \\
+    P1 & Qwen 27B & heldout & 0.361 & 0.000 & 0.850 & 0.650 \\
+    P2 & DeepSeek 1.5B & core & 0.336 & 0.000 & 0.974 & 1.000 \\
+    P2 & DeepSeek 1.5B & heldout & 0.336 & 0.000 & 0.958 & 1.000 \\
+    P2 & DeepSeek 8B & core & 0.333 & 0.190 & 0.720 & 0.929 \\
+    P2 & DeepSeek 8B & heldout & 0.341 & 0.185 & 0.769 & 0.886 \\
+    P2 & DeepSeek 14B & core & 0.337 & 0.195 & 0.769 & 0.943 \\
+    P2 & DeepSeek 14B & heldout & 0.344 & 0.000 & 0.805 & 0.829 \\
+    P2 & Gemma 2B & core & 0.335 & 0.000 & 0.957 & 0.993 \\
+    P2 & Gemma 2B & heldout & 0.339 & 0.000 & 0.959 & 1.000 \\
+    P2 & Gemma 4B & core & 0.340 & 0.181 & 0.770 & 0.929 \\
+    P2 & Gemma 4B & heldout & 0.347 & 0.000 & 0.737 & 0.886 \\
+    P2 & Gemma 26B & core & 0.336 & 0.351 & 0.445 & 0.943 \\
+    P2 & Gemma 26B & heldout & 0.344 & 0.000 & 0.596 & 0.829 \\
+    P2 & GPT-OSS 20B & core & 0.340 & 0.277 & 0.721 & 0.879 \\
+    P2 & GPT-OSS 20B & heldout & 0.344 & 0.000 & 0.774 & 0.800 \\
+    P2 & Qwen 2B & core & 0.334 & 0.000 & 0.996 & 0.957 \\
+    P2 & Qwen 2B & heldout & 0.336 & 0.000 & 0.996 & 1.000 \\
+    P2 & Qwen 9B & core & 0.337 & 0.181 & 0.795 & 0.886 \\
+    P2 & Qwen 9B & heldout & 0.341 & 0.000 & 0.912 & 0.714 \\
+    P2 & Qwen 27B & core & 0.346 & 0.060 & 0.859 & 0.786 \\
+    P2 & Qwen 27B & heldout & 0.329 & 0.000 & 0.027 & 1.000 \\
+    P3 & DeepSeek 1.5B & core & 0.430 & 0.367 & 1.000 & 1.000 \\
+    P3 & DeepSeek 1.5B & heldout & 0.431 & 0.361 & 1.000 & 1.000 \\
+    P3 & DeepSeek 8B & core & 0.412 & 0.099 & 0.950 & 1.000 \\
+    P3 & DeepSeek 8B & heldout & 0.431 & 0.361 & 1.000 & 1.000 \\
+    P3 & DeepSeek 14B & core & 0.430 & 0.367 & 1.000 & 1.000 \\
+    P3 & DeepSeek 14B & heldout & 0.431 & 0.361 & 1.000 & 1.000 \\
+    P3 & Gemma 2B & core & 0.429 & 0.106 & 1.000 & 0.900 \\
+    P3 & Gemma 2B & heldout & 0.440 & 0.097 & 1.000 & 1.000 \\
+    P3 & Gemma 4B & core & 0.428 & 0.283 & 0.818 & 1.000 \\
+    P3 & Gemma 4B & heldout & 0.430 & 0.315 & 0.750 & 1.000 \\
+    P3 & Gemma 26B & core & 0.456 & 0.000 & 0.865 & 1.000 \\
+    P3 & Gemma 26B & heldout & 0.459 & 0.000 & 0.815 & 1.000 \\
+    P3 & GPT-OSS 20B & core & 0.437 & 0.083 & 0.479 & 1.000 \\
+    P3 & GPT-OSS 20B & heldout & 0.457 & 0.097 & 0.823 & 1.000 \\
+    P3 & Qwen 2B & core & 0.430 & 0.367 & 1.000 & 1.000 \\
+    P3 & Qwen 2B & heldout & 0.431 & 0.361 & 1.000 & 1.000 \\
+    P3 & Qwen 9B & core & 0.425 & 0.376 & 1.000 & 1.000 \\
+    P3 & Qwen 9B & heldout & 0.431 & 0.361 & 1.000 & 1.000 \\
+    P3 & Qwen 27B & core & 0.455 & 0.281 & 0.791 & 1.000 \\
+    P3 & Qwen 27B & heldout & 0.432 & 0.363 & 0.967 & 1.000 \\
+\bottomrule
+\end{longtable}

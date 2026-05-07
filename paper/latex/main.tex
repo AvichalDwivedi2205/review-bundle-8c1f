@@ -1,0 +1,485 @@
+\documentclass{article}
+
+\newif\ifanonsubmission
+\anonsubmissiontrue
+\newif\ifneuripsstyle
+\newif\ifincludeappendix
+\newif\ifincludechecklist
+\includeappendixfalse
+\includechecklisttrue
+
+\IfFileExists{neurips_2026.sty}{
+  \neuripsstyletrue
+  \ifanonsubmission
+    \usepackage[eandd]{neurips_2026}
+  \else
+    \usepackage[eandd,preprint]{neurips_2026}
+  \fi
+}{
+  \IfFileExists{neurips_2025.sty}{
+    \neuripsstyletrue
+    \ifanonsubmission
+      \usepackage{neurips_2025}
+    \else
+      \usepackage[preprint]{neurips_2025}
+    \fi
+  }{
+    \neuripsstylefalse
+    \usepackage[margin=1in]{geometry}
+  }
+}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{url}
+\usepackage{hyperref}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+\ifneuripsstyle\else
+  \usepackage[numbers]{natbib}
+\fi
+
+\providecommand{\answerYes}[1][]{\textbf{[Yes]}#1}
+\providecommand{\answerNo}[1][]{\textbf{[No]}#1}
+\providecommand{\answerNA}[1][]{\textbf{[N/A]}#1}
+
+\newcommand{\figdir}{../../outputs/paper-freeze-2026-04-18/figures}
+
+\title{LatentGoalOps: A Benchmark for Latent Objective Adaptation Under Silent Shifts}
+\ifanonsubmission
+  \author{Anonymous Author(s)}
+\else
+  \author{Anonymous Author(s)}
+\fi
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Latent objectives are common in real operational settings: stakeholders reveal
+constraints, preferences, and feedback over time, while the true utility
+function governing good decisions may remain implicit or change without
+announcement. We introduce \textbf{LatentGoalOps}, a benchmark for evaluating
+latent objective inference and adaptation under silent objective shifts. Agents
+observe a fixed public operating schema consisting of business state,
+stakeholder messages, decision ledgers, delayed effects, and governance
+constraints, but never observe the hidden objective used by the deterministic
+grader. The benchmark contains three sequential business-operations
+environments; our main analysis focuses on two week-long anchor tasks, with a
+shorter planning task used as breadth evidence. Across the anchor tasks,
+restricted-view leakage audits show no easy shortcut, models incur a persistent
+penalty on silently shifted episodes, and the best current local model remains
+roughly 0.20 below a myopic oracle that observes the active hidden objective
+but does not solve the full future trajectory. We further find that performance
+is mechanism-sensitive: several sharp heldout drops are caused by
+structured-action failures rather than latent-policy quality alone. For this
+reason, LatentGoalOps reports strict score, native-only score, and interface
+reliability jointly. These results position LatentGoalOps as a benchmark for
+studying hidden-objective adaptation under a fixed public schema and
+deterministic grader, rather than as a measure of general business-agent
+readiness. Small hosted-model probes show heterogeneous interface reliability,
+but none closes the oracle gap.
+\end{abstract}
+
+\section{Introduction}
+
+Many agent benchmarks make the objective explicit: the instruction is written
+down, the tool contract is visible, and success is defined against an external
+goal. Recent suites such as \textsc{$\tau$}-bench and BrowserGym have pushed
+that setting toward longer-horizon, tool-using evaluation in realistic
+interfaces~\citep{taubench,browsergym}. Real operating environments, however,
+often require a different capability. Leadership priorities are not always
+fully stated, stakeholder messages are noisy, visible KPI movement is
+ambiguous, and the underlying objective can change without announcement.
+
+This paper targets that gap. We study \emph{latent objective inference and
+adaptation}: inferring an unstated reward structure from public evidence,
+acting coherently through a strict interface, and adapting when the hidden
+objective changes mid-episode. We instantiate this construct in
+\textbf{LatentGoalOps}, a synthetic but structured operating-world benchmark
+with persistent entities, delayed effects, deterministic grading, and silent
+objective shifts. The synthetic construction is intentional: it gives the
+benchmark hidden-objective ground truth while preserving a realistic operating
+surface for the agent.
+
+The release contains three paper-facing sequential environments:
+\emph{P1 Startup Week}, \emph{P2 Incident Response Week}, and
+\emph{P3 Quarterly Headcount Plan}. The paper centers P1 and P2 as anchor
+tasks; P3 serves only as shorter breadth evidence. Within that scope, the
+frozen evidence supports three claims: current local open-weight
+configurations retain a clear myopic-oracle gap, within-family behavior is
+heterogeneous rather than uniformly monotone, and some large heldout drops are
+interface-mediated rather than pure policy regressions.
+
+\paragraph{Related work and positioning.}
+Existing interactive benchmarks such as \textsc{$\tau$}-bench and BrowserGym
+primarily evaluate explicit user goals in realistic interfaces, while
+structured-output and function-calling evaluations such as
+JSONSchemaBench and BFCL isolate interface control itself
+~\citep{taubench,browsergym,jsonschemabench,bfcl}. LatentGoalOps instead hides
+the objective, introduces delayed effects and silent shifts, and requires
+strict structured actions under non-stationarity. Following recent
+benchmark-methodology work, we therefore report strict score, native-only
+score, and interface reliability together rather than a single leaderboard
+scalar~\citep{agentrewardbench,betterbench,dataperf,benchmarkrepos}.
+
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lccccc}
+    \toprule
+    Benchmark & Business ops & Hidden objective & Silent shift & Delayed effects & Strict schema \\
+    \midrule
+    WebArena & No & No & No & No & No \\
+    WorkArena & Yes & No & No & No & No \\
+    BrowserGym & No & No & No & No & No \\
+    OSWorld & No & No & No & No & No \\
+    \textsc{$\tau$}-bench & Yes & No & No & Limited & No \\
+    LatentGoalOps & Yes & Yes & Yes & Yes & Yes \\
+    \bottomrule
+  \end{tabular}
+  \caption{Qualitative construct comparison against nearby interactive-agent
+  benchmarks~\citep{webarena,workarena,browsergym,osworld,taubench}. LatentGoalOps
+  differs by combining hidden objective, silent shift, delayed effects, and a
+  strict executable action shell.}
+  \label{tab:comparison}
+\end{table}
+
+\paragraph{Contributions.}
+\begin{itemize}[leftmargin=1.5em]
+  \item We introduce LatentGoalOps, a benchmark suite for latent objective
+  inference and adaptation under silent non-stationarity with delayed effects,
+  hidden strategic objectives, deterministic grading, two week-long anchor
+  environments, and one shorter breadth task.
+  \item We release a runnable benchmark artifact with a frozen protocol,
+  core and heldout splits, deterministic baselines, restricted-view leakage
+  probes, generated paper assets, and reviewer-facing reproducibility
+  documentation.
+  \item We report a strengthened local benchmark matrix with 630 primary model
+  episodes and 360 baseline episodes, plus a P1/P2 anchor-task robustness
+  slice that isolates the benchmark's strongest latent-adaptation settings.
+  \item We add exploratory hosted-model probes for Gemini 3 Flash preview,
+  GPT-5.4 mini, and Claude Sonnet 4.6 to test whether accessible API models
+  immediately close the myopic-oracle gap under the same action shell.
+  \item We show that the benchmark's empirical story is mechanism-sensitive:
+  some larger-model changes are native-policy movements, while some of the
+  sharpest heldout regressions are interface-mediated drops.
+\end{itemize}
+
+\section{Benchmark}
+
+\subsection{Environment Loop}
+
+Each episode is a finite partially observed decision process. At step $t$, the
+agent receives a public observation $o_t$, emits a structured action $a_t$, and
+the environment advances to the next state. Public observations include inbox
+messages, KPI dashboards, dated decision ledgers, pending effects, realized
+effects, customer accounts, stakeholder personas, team state, market context,
+and visible governance constraints. The hidden objective $g_t$ is never shown
+directly.
+
+Formally, an episode is a trajectory
+\[
+\tau = (o_0, a_0, o_1, a_1, \ldots, o_T),
+\]
+with hidden state $x_t$, public observation $o_t = \psi(x_t)$, and active
+hidden objective state $g_t$. The environment maintains a normalized
+four-channel metric vector $m_t \in [0,1]^4$ over growth, retention, revenue,
+and efficiency, and an active latent weight vector $w_t \in \Delta^4$. The
+latent utility used by the grader is
+\[
+U_t = \mathrm{clip}_{[0,1]} \left( \sum_{c \in \mathcal{C}} m_{t,c} \, w_{t,c} \right),
+\qquad
+\mathcal{C} = \{\text{growth}, \text{retention}, \text{revenue}, \text{efficiency}\}.
+\]
+
+The action interface is intentionally strict. On the sequential tasks, a valid
+action is a JSON-serializable payload over task-specific fields such as
+\texttt{chosen\_initiatives}, \texttt{messaging\_action},
+\texttt{pricing\_change\_pct}, \texttt{support\_policy}, or
+\texttt{budget\_allocations}. If the model fails to emit a valid structured
+action, the benchmark executes a fallback action and the trajectory still
+advances. In other words, interface failures are part of the task, not merely
+parser trivia. This follows the broader lesson from structured-generation and
+tool-use evaluation that output control is part of agent capability rather than
+an implementation footnote~\citep{jsonschemabench,bfcl}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{\figdir/benchmark_overview.pdf}
+  \caption{LatentGoalOps exposes public operating state and delayed
+  consequences while hiding the objective that determines utility. The agent
+  must act through a strict structured-action interface; failures at that
+  interface alter the trajectory itself.}
+  \label{fig:overview}
+\end{figure}
+
+\subsection{Three Sequential Environments and Silent Shifts}
+
+LatentGoalOps evaluates three sequential operating environments. The
+implementation preserves internal task ids for reproducibility, but the main
+paper uses the cleaner P1--P3 names throughout. Table~\ref{tab:tasksuite}
+summarizes the benchmark environments and their roles in the manuscript.
+
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{l l c c c}
+    \toprule
+    Paper ID & Environment & Horizon & Paper role & Hidden shift \\
+    \midrule
+    P1 & Startup Week & 10 & anchor & Yes \\
+    P2 & Incident Response Week & 7 & anchor & Yes \\
+    P3 & Quarterly Headcount Plan & 4 & breadth & Yes \\
+    \bottomrule
+  \end{tabular}
+  \caption{LatentGoalOps benchmark environments. The main paper's
+  result-bearing analyses center the two week-long anchor tasks P1 and P2.}
+  \label{tab:tasksuite}
+\end{table}
+
+P1 Startup Week is a ten-step operating week with initiatives, renewals, and
+delayed business consequences. P2 Incident Response Week is a seven-step
+incident setting where trust repair, governance, recovery speed, and cost can
+conflict. P3 Quarterly Headcount Plan is a shorter staffing task used only for
+breadth. Heldout evaluation changes scenario families and delayed-effect
+realizations while preserving the same public schema and grading semantics.
+Silent shifts occur with probability $0.6$, usually at steps $\{3,4,5\}$, and
+can alter latent weights as well as risk posture, planning horizon, segment
+focus, and governance strictness. The model is never told that the shift
+occurred.
+
+\subsection{Scoring and Reporting}
+
+For the primary sequential tasks, the episode score is an explicit weighted
+combination of final latent utility $U$, adaptation $A$, coherence $C$, and
+constraint satisfaction $K$:
+\[
+S_{\mathrm{task}} = \alpha_U U + \alpha_A A + \alpha_C C + \alpha_K K.
+\]
+Task-specific coefficients and no-shift renormalization rules are fixed in the
+release protocol. This keeps the main paper focused on
+the measurement construct rather than coefficient bookkeeping.
+
+For \emph{Startup Week} and \emph{Incident Response Week}, adaptation measures
+how quickly post-shift decisions improve under the active hidden objective and
+whether that recovery is sustained; P3 uses the same principle with a shorter
+horizon. We report overall strict score, native-only score, shifted versus
+unshifted score, and interface reliability. Release aggregates pool 10 seeds
+per task across P1--P3, while P1/P2 anchor slices isolate the strongest
+construct signal; aggregate views use 95\% bootstrap confidence intervals.
+
+\section{Evaluation and Benchmark Validity}
+
+\subsection{Baseline Separation}
+
+LatentGoalOps has meaningful score dynamic range on the frozen release
+aggregate over P1--P3. Random, visible-heuristic, and myopic-oracle baselines
+preserve the expected ordering on both splits, and the myopic-oracle gap
+remains substantial on both splits. The myopic oracle
+observes the active hidden objective and chooses the best immediate action, but
+does not solve the full future trajectory; we use it as a construct headroom
+reference rather than as a fair agent baseline or human proxy.
+
+\input{generated/baseline_table.tex}
+
+\subsection{Leakage Audit}
+
+Restricted-view centroid probes test for shortcut access to the hidden
+objective. Table~\ref{tab:leakagecompact} shows that P1 and P2 stay near the
+four-way chance regime under both full and restricted views, with
+\texttt{explicit\_goal\_token\_rate} equal to 0.0 throughout. P3 is less
+clean: its core restricted-view maximum reaches 0.35, which is why we treat it
+as breadth evidence rather than as a validity anchor. Each probe slice uses 20
+train and 20 test examples, so this audit is a shortcut screen rather than a
+proof of impossibility.
+
+\input{generated/leakage_compact_table.tex}
+
+Utility-only rescoring sharply compresses the myopic-oracle gap, which is the
+expected pattern if the benchmark is measuring latent-objective adaptation
+rather than only final-state utility.
+
+\section{Main Results}
+
+\subsection{The Two Week-Long Anchor Tasks Carry the Main Result}
+
+Because P3 is shorter-horizon and less discriminative than the two week-long
+environments, Table~\ref{tab:anchorslice} reports a P1/P2-only robustness
+slice computed directly from the frozen release as the paper's main result
+view. On the anchor slice, the strongest local core mean is Qwen
+27B at 0.425 and the strongest heldout mean is DeepSeek 8B at 0.431, while the
+myopic-oracle anchor means are 0.626 on core and 0.630 on heldout. The best
+local anchor results therefore still trail the oracle by about 0.20.
+
+\input{generated/anchor_slice_table.tex}
+
+Taken together with the leakage audit and the persistent shifted-versus-
+unshifted gap, the P1/P2 anchor tasks make the intended construct visible:
+public trajectory evidence is informative but incomplete, so successful
+behavior requires latent-goal tracking rather than shortcut extraction.
+
+\subsection{The Full Release Aggregate Preserves the Same Story}
+
+The full P1--P3 aggregate preserves the same story: the strongest frozen local
+aggregates are 0.443 on core and 0.446 on heldout, still about 0.15 below the
+myopic-oracle baselines of 0.599 and 0.598.
+
+\subsection{Hosted API Probes Improve Reliability but Do Not Close the Gap}
+
+To test whether readily accessible hosted models close the benchmark's oracle
+gap, we ran small OpenRouter probes on the P1--P3 aggregate after freezing the primary
+local-model matrix. These runs are exploratory and not used as load-bearing
+within-family scaling evidence, but they answer a practical reviewer question:
+whether modern API models immediately erase the oracle gap. Because P1 and P2
+are the load-bearing anchor tasks, Table~\ref{tab:apiprobes} reports both
+P1/P2 means and the broader P1--P3 aggregate.
+
+\input{generated/api_probe_table.tex}
+
+The probes separate interface reliability from latent-objective quality.
+Gemini 3 Flash preview often produced plausible intent with non-native field
+names, yielding low native rates and many empty fallbacks. GPT-5.4 mini was
+mostly native and reached 0.388/0.352 on the P1/P2 core/heldout anchor slice
+(0.418/0.381 on P1--P3). Claude Sonnet 4.6 was the cleanest probe, with native
+rate 1.00 on both splits and P1/P2 scores of 0.423/0.385. None of these
+descriptive point estimates closes the myopic-oracle gap. Under these small
+probes, better shell reliability does not by itself close the gap to a
+privileged policy that sees the active hidden objective.
+
+\subsection{Some of the Sharpest Heldout Drops Are Interface-Mediated}
+
+Across the frozen release, scaling is family-specific rather than monotone, but
+the most important mechanism is interface confounding rather than raw ranking
+alone. DeepSeek remains the cleanest native-policy signal: its three reported
+sizes stay at native rate 1.0 on both splits, so its gains and losses are best
+read as policy movement. Qwen 2B $\rightarrow$ 9B also changes at native rate
+1.0, giving a clean example of non-monotone native-policy behavior. The sharp
+heldout failures, by contrast, are dominated by shell fragility.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{\figdir/overall_vs_native.pdf}
+  \caption{Observed score versus native-only score on the frozen release
+  aggregate. Small-native-count estimates are diagnostic only, but the figure
+  makes shell confounding visible instead of hiding it inside a single scalar
+  mean.}
+  \label{fig:overall-native}
+\end{figure}
+
+The clearest examples are Gemma 26B and Qwen 27B. On the P1/P2 anchor slice,
+Gemma 26B heldout falls to 0.341 overall at native rate 0.70, while Qwen 27B
+heldout falls to 0.340 overall at native rate 0.25. On the full release
+aggregate, Qwen 27B heldout rises from 0.385 overall to 0.457 on the native
+subset, but that subset contains only 14 episodes and must be read
+diagnostically rather than as a leaderboard claim. Table~\ref{tab:qualtraj}
+grounds that mechanism in exact stored outputs: DeepSeek stays incident-
+focused across the shift, whereas Qwen 27B hits an empty fallback and later
+returns stale growth/revenue moves.
+
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{p{0.14\linewidth} p{0.18\linewidth} p{0.43\linewidth} p{0.15\linewidth}}
+    \toprule
+    Run / step & Public clue & Selected output fields & Strict / reward \\
+    \midrule
+    DeepSeek 14B, P2 day 2 & Day 2; 3 pending effects & {\ttfamily initiative=ship\_usage\_pricing; message=retention\_campaign; pricing=-0.1; support=incident\_swarm} & strict; $-0.0302$ \\
+    DeepSeek 14B, P2 day 8 & Day 8; 0 pending effects & {\ttfamily initiative=refactor\_incident\_tooling; message=retention\_campaign; pricing=0.0; support=incident\_swarm} & strict; $0.1427$ \\
+    Qwen 27B, P1 day 5 & Day 5; 0 pending effects & {\ttfamily \{\}} & non-strict; $-0.0216$ \\
+    Qwen 27B, P1 day 9 & Day 9; 3 pending effects & {\ttfamily initiative=launch\_referral\_loop; message=growth\_push; pricing=0.0; support=balanced\_triage} & strict; $-0.2013$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Exact selected fields copied from stored action payloads and episode
+  logs in the frozen case studies. These are action outputs and scalar episode
+  diagnostics, not chain-of-thought traces.}
+  \label{tab:qualtraj}
+\end{table}
+
+\subsection{Silent Shifts Remain the Dominant Stressor}
+
+Silent objective shifts remain the primary benchmark stress test. Across the
+release matrix, shifted episodes are materially harder than unshifted ones on
+both core and heldout, with a median unshifted-minus-shifted gap of 0.172 in
+the release-wide diagnostics. This gap is not explained away by shell failures:
+models with perfect native-action reliability, including all DeepSeek sizes,
+still pay a substantial shift penalty. That is the benchmark construct we most
+want to isolate. Figure~\ref{fig:shifted} makes this visible at the aggregate
+level.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.82\linewidth]{\figdir/shifted_vs_unshifted.pdf}
+  \caption{Shifted episodes remain materially harder than no-shift episodes on
+  the frozen primary-task aggregate. Error bars denote 95\% bootstrap
+  confidence intervals for the score aggregates.}
+  \label{fig:shifted}
+\end{figure}
+
+\section{Discussion}
+
+LatentGoalOps clears the benchmark-science checks we care about most: baseline
+ordering, a persistent oracle gap, a consistent shift penalty, and no easy
+shortcut on the two anchor tasks. Because malformed actions change the
+trajectory itself, strict score, native-only score, and native episode rate
+need to be reported together.
+
+\section{Limitations and Intended Use}
+
+\begin{itemize}[leftmargin=1.5em]
+  \item The benchmark is synthetic and intended for comparative evaluation, not
+  operational advice or direct real-world deployment claims.
+  \item The heldout split preserves schema and grader semantics, and P3 is
+  treated as shorter planning breadth rather than as a load-bearing anchor.
+  \item GPT-OSS 120B is API-served, and this version does not include human
+  baselines or a full human-audited grader validation study.
+  \item The hosted-model probes are intentionally small because of API access,
+  budget, and deadline constraints. They should be read as exploratory
+  external probes, not exhaustive frontier-model coverage.
+  \item The adaptation metric uses thresholded detection rules; we expose and
+  audit those choices in the release protocol, but smoother alternatives remain
+  possible.
+\end{itemize}
+
+\section{Conclusion}
+
+LatentGoalOps isolates hidden-objective adaptation under silent
+non-stationarity. On the tighter P1/P2 anchor slice and the broader release
+aggregate, the benchmark shows no easy shortcut on the anchor tasks, a
+persistent shift penalty, and a clear gap between current local models and the
+myopic-oracle reference, while also revealing that some sharp heldout failures
+are interface-mediated. That combination argues for evaluating latent policy
+quality and action-shell reliability separately.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\ifincludeappendix
+  \clearpage
+  \appendix
+  \input{supplement_body.tex}
+\fi
+
+\ifincludechecklist
+  \clearpage
+  \input{checklist_filled.tex}
+\fi
+
+\end{document}

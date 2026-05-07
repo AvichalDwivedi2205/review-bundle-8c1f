@@ -1,0 +1,16 @@
+{
+  "generated_dir": "paper/latex/generated",
+  "file_count": 10,
+  "files": [
+    "adaptation_audit_table.tex",
+    "baseline_table.tex",
+    "benchmark_health_table.tex",
+    "external_anchor_table.tex",
+    "main_results_table.tex",
+    "per_task_results_table.tex",
+    "runtime_table.tex",
+    "scaling_transition_table.tex",
+    "shell_controlled_diagnostic_table.tex",
+    "subscore_longtable.tex"
+  ]
+}

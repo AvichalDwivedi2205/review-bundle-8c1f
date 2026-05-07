@@ -1,0 +1,310 @@
+{
+  "case_id": "qwen27_interface_failure",
+  "title": "Qwen 27B low-scoring trajectory with action-shell collapse",
+  "model": "qwen3.5:27b",
+  "split": "core",
+  "selection_rule": "lowest_score",
+  "episode": {
+    "run_id": "model_qwen3.5:27b",
+    "task_id": "task3_startup_week",
+    "seed": 116,
+    "model_name": "qwen3.5:27b",
+    "policy": "model",
+    "score": 0.3685,
+    "strict_episode": false,
+    "empty_fallback_episode": true,
+    "response_cap_hit": false,
+    "hidden_shift_present": true,
+    "hidden_shift_step": 4.0,
+    "sub_scores": {
+      "final_utility": 0.4203,
+      "adaptation": 0.0,
+      "coherence": 0.6886,
+      "constraints": 0.55,
+      "belief_tracking": 0.0
+    },
+    "invalid_response_excerpt": "{\"chosen\":[\"fix_login_bug\",\"improve_onboarding\"],\"msg\":\"retention_campaign\",\"price\":0.0,\"support\":\"hybrid_support\"}"
+  },
+  "timeline": [
+    {
+      "step_index": 0,
+      "reward": -0.06821464543378675,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 38,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-03",
+        "sim_day_label": "Day 2",
+        "step_index": 1,
+        "narrative_excerpt": "Day 2 (2026-03-03) begins with DAU at 16025, MRR at 38454, and ops margin at 0.36. Runway is 20 months and board pressure is 0.85. Stakeholders are sending mixed signals. Ops margin is 0.36 against a 0.60 target, with infra cost per unit at 1.87 and runway at 20 months. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits a",
+        "inbox_count": 4,
+        "backlog_count": 5,
+        "pending_effect_count": 5,
+        "realized_effect_count": 5
+      },
+      "action": {
+        "chosen_initiatives": [
+          "optimize_infra",
+          "refactor_incident_tooling",
+          "automate_support_triage"
+        ],
+        "messaging_action": "cost_comms",
+        "support_policy": "automation_first",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 1,
+      "reward": 0.07628788938209778,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 38,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-04",
+        "sim_day_label": "Day 3",
+        "step_index": 2,
+        "narrative_excerpt": "Day 3 (2026-03-04) begins with DAU at 15920, MRR at 38850, and ops margin at 0.38. Runway is 21 months and board pressure is 0.95. Stakeholders are sending mixed signals. Ops margin is 0.38 against a 0.60 target, with infra cost per unit at 1.71 and runway at 21 months. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits a",
+        "inbox_count": 4,
+        "backlog_count": 5,
+        "pending_effect_count": 2,
+        "realized_effect_count": 6
+      },
+      "action": {
+        "chosen_initiatives": [
+          "optimize_infra",
+          "refactor_incident_tooling",
+          "automate_support_triage"
+        ],
+        "messaging_action": "cost_comms",
+        "support_policy": "automation_first",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 2,
+      "reward": 0.08067885089287284,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 38,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-05",
+        "sim_day_label": "Day 4",
+        "step_index": 3,
+        "narrative_excerpt": "Day 4 (2026-03-05) begins with DAU at 15895, MRR at 38858, and ops margin at 0.40. Runway is 22 months and board pressure is 1.00. Stakeholders are sending mixed signals. Ops margin is 0.40 against a 0.60 target, with infra cost per unit at 1.58 and runway at 22 months. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits a",
+        "inbox_count": 4,
+        "backlog_count": 5,
+        "pending_effect_count": 0,
+        "realized_effect_count": 4
+      },
+      "action": {
+        "chosen_initiatives": [
+          "optimize_infra",
+          "refactor_incident_tooling",
+          "automate_support_triage"
+        ],
+        "messaging_action": "cost_comms",
+        "support_policy": "automation_first",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 3,
+      "reward": -0.021592636409263462,
+      "done": false,
+      "strict_step": false,
+      "empty_fallback": true,
+      "response_cap_hit": false,
+      "output_tokens": 31,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-06",
+        "sim_day_label": "Day 5",
+        "step_index": 4,
+        "narrative_excerpt": "Day 5 (2026-03-06) begins with DAU at 15913, MRR at 38883, and ops margin at 0.41. Runway is 21 months and board pressure is 1.00. Stakeholders are sending mixed signals. Ops margin is 0.41 against a 0.60 target, with infra cost per unit at 1.56 and runway at 21 months. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits a",
+        "inbox_count": 4,
+        "backlog_count": 5,
+        "pending_effect_count": 0,
+        "realized_effect_count": 1
+      },
+      "action": {}
+    },
+    {
+      "step_index": 4,
+      "reward": -0.010028146773828841,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 31,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-07",
+        "sim_day_label": "Day 6",
+        "step_index": 5,
+        "narrative_excerpt": "Day 6 (2026-03-07) begins with DAU at 15977, MRR at 39020, and ops margin at 0.39. Runway is 20 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 164 and execution quality matters more than usual. Ops margin is 0.39 against a 0.60 target, with ",
+        "inbox_count": 4,
+        "backlog_count": 3,
+        "pending_effect_count": 3,
+        "realized_effect_count": 3
+      },
+      "action": {
+        "chosen_initiatives": [
+          "fix_login_bug",
+          "improve_onboarding"
+        ],
+        "messaging_action": "retention_campaign",
+        "support_policy": "balanced_triage",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 5,
+      "reward": 0.08911605611478733,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 27,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-08",
+        "sim_day_label": "Day 7",
+        "step_index": 6,
+        "narrative_excerpt": "Day 7 (2026-03-08) begins with DAU at 16075, MRR at 38163, and ops margin at 0.38. Runway is 19 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 171 and execution quality matters more than usual. Ops margin is 0.38 against a 0.60 target, with ",
+        "inbox_count": 4,
+        "backlog_count": 2,
+        "pending_effect_count": 3,
+        "realized_effect_count": 4
+      },
+      "action": {
+        "chosen_initiatives": [
+          "launch_admin_analytics"
+        ],
+        "messaging_action": "retention_campaign",
+        "support_policy": "balanced_triage",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 6,
+      "reward": 0.13583238884654017,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 29,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-09",
+        "sim_day_label": "Day 8",
+        "step_index": 7,
+        "narrative_excerpt": "Day 8 (2026-03-09) begins with DAU at 16153, MRR at 39439, and ops margin at 0.35. Runway is 18 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 188 and execution quality matters more than usual. Ops margin is 0.35 against a 0.60 target, with ",
+        "inbox_count": 4,
+        "backlog_count": 1,
+        "pending_effect_count": 5,
+        "realized_effect_count": 2
+      },
+      "action": {
+        "chosen_initiatives": [
+          "ship_usage_pricing"
+        ],
+        "messaging_action": "revenue_upsell",
+        "support_policy": "premium_sla",
+        "pricing_change_pct": 0.05
+      }
+    },
+    {
+      "step_index": 7,
+      "reward": -0.2013116319594583,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 26,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-10",
+        "sim_day_label": "Day 9",
+        "step_index": 8,
+        "narrative_excerpt": "Day 9 (2026-03-10) begins with DAU at 16166, MRR at 39998, and ops margin at 0.34. Runway is 17 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 198 and execution quality matters more than usual. Ops margin is 0.34 against a 0.60 target, with ",
+        "inbox_count": 4,
+        "backlog_count": 1,
+        "pending_effect_count": 3,
+        "realized_effect_count": 2
+      },
+      "action": {
+        "chosen_initiatives": [
+          "launch_referral_loop"
+        ],
+        "messaging_action": "growth_push",
+        "support_policy": "balanced_triage",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 8,
+      "reward": -0.050126695089030775,
+      "done": false,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 26,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-11",
+        "sim_day_label": "Day 10",
+        "step_index": 9,
+        "narrative_excerpt": "Day 10 (2026-03-11) begins with DAU at 16179, MRR at 41216, and ops margin at 0.34. Runway is 16 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 200 and execution quality matters more than usual. Ops margin is 0.34 against a 0.60 target, with",
+        "inbox_count": 4,
+        "backlog_count": 1,
+        "pending_effect_count": 1,
+        "realized_effect_count": 2
+      },
+      "action": {
+        "chosen_initiatives": [
+          "launch_referral_loop"
+        ],
+        "messaging_action": "growth_push",
+        "support_policy": "balanced_triage",
+        "pricing_change_pct": 0.0
+      }
+    },
+    {
+      "step_index": 9,
+      "reward": -0.050582936023625354,
+      "done": true,
+      "strict_step": true,
+      "empty_fallback": false,
+      "response_cap_hit": false,
+      "output_tokens": 26,
+      "finish_reason": "stop",
+      "observation": {
+        "sim_date": "2026-03-12",
+        "sim_day_label": "Day 11",
+        "step_index": 10,
+        "narrative_excerpt": "Day 11 (2026-03-12) begins with DAU at 16162, MRR at 41869, and ops margin at 0.34. Runway is 15 months and board pressure is 1.00. Stakeholders are sending mixed signals. Renewal pressure is building around Atlas Capital Customer 7, while support volume sits at 199 and execution quality matters more than usual. Ops margin is 0.34 against a 0.60 target, with",
+        "inbox_count": 4,
+        "backlog_count": 1,
+        "pending_effect_count": 0,
+        "realized_effect_count": 1
+      },
+      "action": {
+        "chosen_initiatives": [
+          "launch_referral_loop"
+        ],
+        "messaging_action": "growth_push",
+        "support_policy": "balanced_triage",
+        "pricing_change_pct": 0.0
+      }
+    }
+  ]
+}

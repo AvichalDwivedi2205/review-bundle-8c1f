@@ -1,0 +1,33 @@
+\begin{table}[t]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lllrrrrr}
+    \toprule
+    Model & Split & Provider & In tok (K) & Out tok (K) & Cost (\$) & Native & Empty fb \\
+    \midrule
+    DeepSeek 1.5B & core & Ollama local & 772.2 & 5.0 & 0.000 & 1.00 & 0.00 \\
+    DeepSeek 1.5B & heldout & Ollama local & 786.7 & 4.8 & 0.000 & 1.00 & 0.00 \\
+    DeepSeek 8B & core & Ollama local & 714.4 & 5.2 & 0.000 & 1.00 & 0.00 \\
+    DeepSeek 8B & heldout & Ollama local & 717.8 & 5.4 & 0.000 & 1.00 & 0.00 \\
+    DeepSeek 14B & core & Ollama local & 724.9 & 5.1 & 0.000 & 1.00 & 0.00 \\
+    DeepSeek 14B & heldout & Ollama local & 706.2 & 5.3 & 0.000 & 1.00 & 0.00 \\
+    Gemma 2B & core & Ollama local & 822.0 & 6.1 & 0.000 & 1.00 & 0.00 \\
+    Gemma 2B & heldout & Ollama local & 825.1 & 6.0 & 0.000 & 1.00 & 0.00 \\
+    Gemma 4B & core & Ollama local & 752.6 & 5.6 & 0.000 & 1.00 & 0.00 \\
+    Gemma 4B & heldout & Ollama local & 747.2 & 5.6 & 0.000 & 1.00 & 0.00 \\
+    Gemma 26B & core & Ollama local & 749.3 & 42.8 & 0.000 & 0.70 & 0.30 \\
+    Gemma 26B & heldout & Ollama local & 748.2 & 38.8 & 0.000 & 0.73 & 0.27 \\
+    GPT-OSS 20B & core & Ollama local & 812.5 & 16.8 & 0.000 & 1.00 & 0.00 \\
+    GPT-OSS 20B & heldout & Ollama local & 784.2 & 8.6 & 0.000 & 1.00 & 0.00 \\
+    Qwen 2B & core & Ollama local & 779.4 & 5.1 & 0.000 & 1.00 & 0.00 \\
+    Qwen 2B & heldout & Ollama local & 785.1 & 5.0 & 0.000 & 1.00 & 0.00 \\
+    Qwen 9B & core & Ollama local & 704.2 & 5.2 & 0.000 & 1.00 & 0.00 \\
+    Qwen 9B & heldout & Ollama local & 694.2 & 5.8 & 0.000 & 1.00 & 0.00 \\
+    Qwen 27B & core & Ollama local & 1408.3 & 10.4 & 0.000 & 0.97 & 0.03 \\
+    Qwen 27B & heldout & Ollama local & 430.1 & 196.9 & 0.000 & 0.47 & 0.53 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Provider/runtime summary for the frozen primary-task aggregate. This table is included because benchmark interpretation depends on serving path, token pressure, and interface reliability.}
+  \label{tab:runtime}
+\end{table}
