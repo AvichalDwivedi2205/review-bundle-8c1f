@@ -5,7 +5,7 @@
   \resizebox{\linewidth}{!}{%
   \begin{tabular}{llrrrrrrr}
     \toprule
-    Model & Split & Episodes & P1/P2 & P1--P3 & Native-only & Native n & Native rate & Empty fallback \\
+    Model & Split & P1--P3 eps. & P1/P2 & P1--P3 & Native-only & Native n & Native rate & Empty fallback \\
     \midrule
     Gemini 3 Flash preview & core & 30 & 0.346 & 0.328 & 0.385 & 8 & 0.27 & 0.73 \\
     Gemini 3 Flash preview & heldout & 30 & 0.319 & 0.313 & 0.338 & 6 & 0.20 & 0.80 \\
@@ -16,9 +16,11 @@
     \bottomrule
   \end{tabular}
   }
-  \caption{Exploratory hosted-model probes run through OpenRouter on the P1--P3
-  aggregate. These API probes are excluded from the primary local-model matrix
-  and are used only to test whether readily accessible hosted models close the
-  gap to the myopic oracle. Entries are descriptive point estimates.}
+  \caption{Exploratory hosted-model probes run through OpenRouter on the
+  P1--P3 aggregate. The P1/P2 column averages the two week-long anchor tasks
+  within each 30-episode P1--P3 probe. These API probes are excluded from the
+  primary local-model matrix and are used only to test whether readily
+  accessible hosted models close the gap to the myopic oracle. Entries are
+  descriptive point estimates.}
   \label{tab:apiprobes}
 \end{table}

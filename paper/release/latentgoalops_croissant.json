@@ -13,7 +13,7 @@
   "version": "2026-04-18",
   "datePublished": "2026-04-18",
   "license": "https://spdx.org/licenses/Apache-2.0.html",
-  "url": "./outputs/paper-freeze-2026-04-18",
+  "url": "../../outputs/paper-freeze-2026-04-18",
   "conformsTo": "http://mlcommons.org/croissant/1.1",
   "dct:conformsTo": "http://mlcommons.org/croissant/RAI/1.0",
   "distribution": [
@@ -21,63 +21,63 @@
       "@type": "cr:FileObject",
       "@id": "freeze_root",
       "name": "Frozen artifact root",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18",
       "encodingFormat": "application/x-directory"
     },
     {
       "@type": "cr:FileObject",
       "@id": "release_index",
       "name": "Reviewer release index",
-      "contentUrl": "./paper/release/README.md",
+      "contentUrl": "../../paper/release/README.md",
       "encodingFormat": "text/markdown"
     },
     {
       "@type": "cr:FileObject",
       "@id": "datasheet",
       "name": "Dataset datasheet",
-      "contentUrl": "./paper/release/DATASHEET.md",
+      "contentUrl": "../../paper/release/DATASHEET.md",
       "encodingFormat": "text/markdown"
     },
     {
       "@type": "cr:FileObject",
       "@id": "reproduction",
       "name": "Reproduction instructions",
-      "contentUrl": "./paper/release/REPRODUCTION.md",
+      "contentUrl": "../../paper/release/REPRODUCTION.md",
       "encodingFormat": "text/markdown"
     },
     {
       "@type": "cr:FileObject",
       "@id": "resolved_protocol",
       "name": "Resolved paper protocol",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18/metadata/paper_protocol_resolved.json",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18/metadata/paper_protocol_resolved.json",
       "encodingFormat": "application/json"
     },
     {
       "@type": "cr:FileObject",
       "@id": "run_manifest",
       "name": "Run manifest",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18/metadata/run_manifest.json",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18/metadata/run_manifest.json",
       "encodingFormat": "application/json"
     },
     {
       "@type": "cr:FileObject",
       "@id": "tables",
       "name": "Generated tables",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18/tables",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18/tables",
       "encodingFormat": "application/x-directory"
     },
     {
       "@type": "cr:FileObject",
       "@id": "figures",
       "name": "Generated figures",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18/figures",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18/figures",
       "encodingFormat": "application/x-directory"
     },
     {
       "@type": "cr:FileObject",
       "@id": "case_studies",
       "name": "Case studies",
-      "contentUrl": "./outputs/paper-freeze-2026-04-18/case_studies",
+      "contentUrl": "../../outputs/paper-freeze-2026-04-18/case_studies",
       "encodingFormat": "application/x-directory"
     }
   ],
@@ -119,9 +119,9 @@
     }
   ],
   "prov:wasDerivedFrom": [
-    "./paper/ENTITY_WORLD_SPEC.md",
-    "./paper/LOGGING_SPEC.md",
-    "./outputs/paper-freeze-2026-04-18/metadata/paper_protocol_resolved.json"
+    "../../paper/ENTITY_WORLD_SPEC.md",
+    "../../paper/LOGGING_SPEC.md",
+    "../../outputs/paper-freeze-2026-04-18/metadata/paper_protocol_resolved.json"
   ],
   "prov:wasGeneratedBy": {
     "@type": "prov:Activity",

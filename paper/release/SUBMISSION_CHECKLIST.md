@@ -42,7 +42,7 @@ Recommended hosted artifact:
 
 Local output path:
 
-- `artifacts/neurips-review-bundle/latentgoalops_neurips_review_bundle.zip`
+- `artifacts/neurips-review-bundle/review-bundle.zip`
 
 ## 4. Review-bundle build
 
@@ -58,6 +58,7 @@ This bundle should contain:
 - `paper/release/`
 - `paper/latex/`
 - frozen artifact root `outputs/paper-freeze-2026-04-18/`
+- exploratory hosted API logs under `outputs/api-probe-2026-05-07/`
 - exact manifest-referenced run directories
 - analysis inputs required by `paper-assets`
 - bundled `tectonic`
@@ -82,7 +83,9 @@ cd paper/latex
 For this submission:
 
 - Review mode: `Double-blind`
-- Dataset submission: `unchecked`
+- Dataset submission: `checked` if OpenReview treats the benchmark artifact as
+  a dataset; upload `paper/release/latentgoalops_croissant.json` and use the
+  same anonymous reviewer-accessible bundle URL as the dataset URL.
 - Contribution type: `Benchmark design and benchmark analysis`
 - Code URL: anonymous hosted review-bundle URL
 

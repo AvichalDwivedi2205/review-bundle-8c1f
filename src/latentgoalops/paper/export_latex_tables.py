@@ -40,6 +40,15 @@ PROVIDER_PAPER_LABELS = {
     "openrouter_api": "OpenRouter API",
 }
 
+API_PROBE_SPECS = [
+    ("Gemini 3 Flash preview", "core", "outputs/api-probe-2026-05-07/gemini-3-flash-preview/core/summary.json"),
+    ("Gemini 3 Flash preview", "heldout", "outputs/api-probe-2026-05-07/gemini-3-flash-preview/heldout/summary.json"),
+    ("GPT-5.4 mini", "core", "outputs/api-probe-2026-05-07/gpt-5.4-mini/core/summary.json"),
+    ("GPT-5.4 mini", "heldout", "outputs/api-probe-2026-05-07/gpt-5.4-mini/heldout/summary.json"),
+    ("Claude Sonnet 4.6", "core", "outputs/api-probe-2026-05-07/claude-sonnet-4.6/core-30-combined-summary.json"),
+    ("Claude Sonnet 4.6", "heldout", "outputs/api-probe-2026-05-07/claude-sonnet-4.6/heldout/summary.json"),
+]
+
 BENCHMARK_HEALTH_LABELS = {
     "core_baseline_ordering": "Core baseline ordering",
     "heldout_baseline_ordering": "Heldout baseline ordering",
@@ -560,6 +569,66 @@ Task & Model & Split & Utility & Adapt. & Coherence & Constraints \\
 """
 
 
+def _api_probe_table() -> str:
+    rows = []
+    for model, split, relative_path in API_PROBE_SPECS:
+        summary_path = _repo_root() / relative_path
+        if not summary_path.exists():
+            continue
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        task_scores = summary.get("mean_scores", {})
+        anchor_scores = [
+            float(task_scores["task3_startup_week"]),
+            float(task_scores["task6_incident_response_week"]),
+        ]
+        p1_p2 = sum(anchor_scores) / len(anchor_scores)
+        p1_p3 = float(summary["overall_mean_score"])
+        native_only = float(summary.get("strict_native_overall_mean_score", p1_p3))
+        native_n = int(summary.get("strict_episode_count", summary["episode_count"]))
+        rows.append(
+            "    "
+            + " & ".join(
+                [
+                    _latex_escape(model),
+                    _latex_escape(split),
+                    _fmt(int(summary["episode_count"]), digits=0),
+                    _fmt(p1_p2),
+                    _fmt(p1_p3),
+                    _fmt(native_only),
+                    _fmt(native_n, digits=0),
+                    _fmt(float(summary["native_action_episode_rate"]), digits=2),
+                    _fmt(float(summary["empty_fallback_episode_rate"]), digits=2),
+                ]
+            )
+            + r" \\"
+        )
+    if not rows:
+        return "% No hosted API probe table available.\n"
+    return rf"""
+\begin{{table}}[t]
+  \centering
+  \scriptsize
+  \setlength{{\tabcolsep}}{{3pt}}
+  \resizebox{{\linewidth}}{{!}}{{%
+  \begin{{tabular}}{{llrrrrrrr}}
+    \toprule
+    Model & Split & P1--P3 eps. & P1/P2 & P1--P3 & Native-only & Native n & Native rate & Empty fallback \\
+    \midrule
+{chr(10).join(rows)}
+    \bottomrule
+  \end{{tabular}}
+  }}
+  \caption{{Exploratory hosted-model probes run through OpenRouter on the
+  P1--P3 aggregate. The P1/P2 column averages the two week-long anchor tasks
+  within each 30-episode P1--P3 probe. These API probes are excluded from the
+  primary local-model matrix and are used only to test whether readily
+  accessible hosted models close the gap to the myopic oracle. Entries are
+  descriptive point estimates.}}
+  \label{{tab:apiprobes}}
+\end{{table}}
+"""
+
+
 def export_latex_tables(config_path: str | Path) -> dict[str, Any]:
     generate_tables(config_path)
     protocol = _load_protocol(config_path)
@@ -587,6 +656,7 @@ def export_latex_tables(config_path: str | Path) -> dict[str, Any]:
         "runtime_table.tex": _runtime_table(main_results),
         "per_task_results_table.tex": _per_task_results_table(task_breakdown),
         "subscore_longtable.tex": _subscore_longtable(subscore_breakdown),
+        "api_probe_table.tex": _api_probe_table(),
     }
     for name, content in outputs.items():
         _write(out_dir / name, content)
